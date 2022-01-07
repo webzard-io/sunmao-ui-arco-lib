@@ -1,5 +1,5 @@
 import { Layout as BaseLayout } from "@arco-design/web-react";
-import { ComponentImplementation, Slot } from "@sunmao-ui/runtime";
+import { ComponentImplementation } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
 import { css } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
@@ -18,12 +18,12 @@ const LayoutStateSchema = Type.Object({});
 const LayoutImpl: ComponentImplementation<Static<typeof LayoutPropsSchema>> = (
   props
 ) => {
-  const { slotsMap, customStyle } = props;
+  const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
     <BaseLayout className={css(customStyle?.content)} {...cProps}>
-      <Slot slotsMap={slotsMap} slot="content" />
+       {slotsElements.content}
     </BaseLayout>
   );
 };
@@ -54,12 +54,12 @@ const HeaderStateSchema = Type.Object({});
 const HeaderImpl: ComponentImplementation<Static<typeof HeaderPropsSchema>> = (
   props
 ) => {
-  const { slotsMap, customStyle } = props;
+  const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
     <BaseLayout.Header className={css(customStyle?.content)} {...cProps}>
-      <Slot slotsMap={slotsMap} slot="content" />
+     {slotsElements.content}
     </BaseLayout.Header>
   );
 };
@@ -90,12 +90,12 @@ const FooterStateSchema = Type.Object({});
 const FooterImpl: ComponentImplementation<Static<typeof FooterPropsSchema>> = (
   props
 ) => {
-  const { slotsMap, customStyle } = props;
+  const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
     <BaseLayout.Footer className={css(customStyle?.content)} {...cProps}>
-      <Slot slotsMap={slotsMap} slot="content" />
+     {slotsElements.content}
     </BaseLayout.Footer>
   );
 };
@@ -126,12 +126,12 @@ const ContentStateSchema = Type.Object({});
 const ContentImpl: ComponentImplementation<
   Static<typeof ContentPropsSchema>
 > = (props) => {
-  const { slotsMap, customStyle } = props;
+  const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
     <BaseLayout.Content className={css(customStyle?.content)} {...cProps}>
-      <Slot slotsMap={slotsMap} slot="content" />
+     {slotsElements.content}
     </BaseLayout.Content>
   );
 };
@@ -162,12 +162,12 @@ const SiderStateSchema = Type.Object({});
 const SiderImpl: ComponentImplementation<Static<typeof SiderPropsSchema>> = (
   props
 ) => {
-  const { slotsMap, customStyle } = props;
+  const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
     <BaseLayout.Sider className={css(customStyle?.content)} {...cProps}>
-      <Slot slotsMap={slotsMap} slot="content" />
+     {slotsElements.content}
     </BaseLayout.Sider>
   );
 };

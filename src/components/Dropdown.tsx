@@ -1,5 +1,5 @@
 import { Dropdown as BaseDropdown, Menu, Button } from "@arco-design/web-react";
-import { ComponentImplementation, Slot } from "@sunmao-ui/runtime";
+import { ComponentImplementation } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
@@ -11,14 +11,11 @@ const DropdownStateSchema = Type.Object({});
 const DropdownImpl: ComponentImplementation<
   Static<typeof DropdownPropsSchema>
 > = (props) => {
-  const { slotsMap } = props;
+  const { slotsElements } = props;
   const cProps = getComponentProps(props);
   return (
-    <BaseDropdown
-      {...cProps}
-      droplist={<Slot slotsMap={slotsMap} slot="list" />}
-    >
-      <Slot slotsMap={slotsMap} slot="trigger" />
+    <BaseDropdown {...cProps} droplist={slotsElements.list}>
+      {slotsElements.trigger}
     </BaseDropdown>
   );
 };

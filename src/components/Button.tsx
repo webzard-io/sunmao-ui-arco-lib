@@ -1,5 +1,5 @@
 import { Button as BaseButton } from "@arco-design/web-react";
-import { ComponentImplementation, Slot } from "@sunmao-ui/runtime";
+import { ComponentImplementation } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
@@ -15,7 +15,7 @@ const ButtonStateSchema = Type.Object({});
 const ButtonImpl: ComponentImplementation<Static<typeof ButtonPropsSchema>> = (
   props
 ) => {
-  const { slotsMap, customStyle, callbackMap } = props;
+  const { slotsElements, customStyle, callbackMap } = props;
   const { className, ...cProps } = getComponentProps(props);
 
   return (
@@ -24,7 +24,7 @@ const ButtonImpl: ComponentImplementation<Static<typeof ButtonPropsSchema>> = (
       onClick={callbackMap?.onClick}
       {...cProps}
     >
-      <Slot slotsMap={slotsMap} slot="content" />
+      {slotsElements.content}
     </BaseButton>
   );
 };

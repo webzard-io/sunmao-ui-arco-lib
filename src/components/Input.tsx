@@ -1,5 +1,5 @@
 import { Input as BaseInput } from "@arco-design/web-react";
-import { ComponentImplementation, Slot } from "@sunmao-ui/runtime";
+import { ComponentImplementation } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
@@ -18,7 +18,7 @@ const InputStateSchema = Type.Object({
 const InputImpl: ComponentImplementation<Static<typeof InputPropsSchema>> = (
   props
 ) => {
-  const { slotsMap, customStyle, callbackMap, mergeState } = props;
+  const { slotsElements, customStyle, callbackMap, mergeState } = props;
   const { className, defaultValue, ...cProps } = getComponentProps(props);
   const [value, setValue] = useState(defaultValue);
   useEffect(() => {
@@ -30,10 +30,10 @@ const InputImpl: ComponentImplementation<Static<typeof InputPropsSchema>> = (
   return (
     <BaseInput
       className={cx(className, css(customStyle?.input))}
-      addAfter={<Slot slotsMap={slotsMap} slot="addAfter" />}
-      addBefore={<Slot slotsMap={slotsMap} slot="addBefore" />}
-      prefix={<Slot slotsMap={slotsMap} slot="prefix" />}
-      suffix={<Slot slotsMap={slotsMap} slot="suffix" />}
+      addAfter={slotsElements.addAfter}
+      addBefore={slotsElements.addBefore}
+      prefix={slotsElements.prefix}
+      suffix={slotsElements.suffix}
       value={value}
       onChange={(value) => {
         setValue(value);

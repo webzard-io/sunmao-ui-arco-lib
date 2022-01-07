@@ -1,5 +1,5 @@
 import { Avatar as BaseAvatar } from "@arco-design/web-react";
-import { ComponentImplementation, Slot } from "@sunmao-ui/runtime";
+import { ComponentImplementation } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
@@ -15,7 +15,7 @@ const AvatarStateSchema = Type.Object({});
 const AvatarImpl: ComponentImplementation<Static<typeof AvatarPropsSchema>> = (
   props
 ) => {
-  const { slotsMap, customStyle } = props;
+  const { slotsElements, customStyle } = props;
   const { className, ...cProps } = getComponentProps(props);
 
   return (
@@ -23,7 +23,7 @@ const AvatarImpl: ComponentImplementation<Static<typeof AvatarPropsSchema>> = (
       className={cx(className, css(customStyle?.content))}
       {...cProps}
     >
-      <Slot slotsMap={slotsMap} slot="content" />
+      {slotsElements.content}
     </BaseAvatar>
   );
 };
