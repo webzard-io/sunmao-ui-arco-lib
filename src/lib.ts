@@ -10,6 +10,7 @@ import { Space } from "./components/Space";
 import { Input } from "./components/Input";
 import { Divider } from "./components/Divider";
 import { Avatar } from "./components/Avatar";
+import { Mentions } from './components/Mentions';
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
@@ -30,6 +31,7 @@ export const components: Component[] = [
   Input,
   Divider,
   Avatar,
+  Mentions
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];
