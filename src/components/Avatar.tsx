@@ -1,5 +1,8 @@
 import { Avatar as BaseAvatar } from "@arco-design/web-react";
-import { ComponentImplementation } from "@sunmao-ui/runtime";
+import {
+  ComponentImplementation,
+  implementRuntimeComponent,
+} from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
@@ -28,22 +31,31 @@ const AvatarImpl: ComponentImplementation<Static<typeof AvatarPropsSchema>> = (
   );
 };
 
-export const Avatar = {
-  ...createComponent({
-    version: "arco/v1",
-    metadata: {
-      ...FALLBACK_METADATA,
-      name: "avatar",
-      displayName: "Avatar",
-    },
-    spec: {
-      properties: AvatarPropsSchema,
-      state: AvatarStateSchema,
-      methods: {},
-      slots: ["content"],
-      styleSlots: ["content"],
-      events: [],
-    },
-  }),
-  impl: AvatarImpl,
+const exampleProperties: Static<typeof AvatarPropsSchema> = {
+  className: "avatar",
+  shape: "circle",
+  autoFixFontSize: false,
+  triggerType: "button",
 };
+
+const options = {
+  version: "arco/v1",
+  metadata: {
+    ...FALLBACK_METADATA,
+    name: "avatar",
+    displayName: "Avatar",
+    exampleProperties,
+  },
+  spec: {
+    properties: AvatarPropsSchema,
+    state: AvatarStateSchema,
+    methods: {},
+    slots: ["content"],
+    styleSlots: ["content"],
+    events: [],
+  },
+};
+
+export const Avatar = implementRuntimeComponent(options)(
+  AvatarImpl as typeof AvatarImpl & undefined
+);

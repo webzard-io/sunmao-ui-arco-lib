@@ -1,6 +1,8 @@
 import { Input as BaseInput } from "@arco-design/web-react";
-import { ComponentImplementation } from "@sunmao-ui/runtime";
-import { createComponent } from "@sunmao-ui/core";
+import {
+  ComponentImplementation,
+  implementRuntimeComponent,
+} from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
@@ -46,22 +48,36 @@ const InputImpl: ComponentImplementation<Static<typeof InputPropsSchema>> = (
   );
 };
 
-export const Input = {
-  ...createComponent({
-    version: "arco/v1",
-    metadata: {
-      ...FALLBACK_METADATA,
-      name: "input",
-      displayName: "Input",
-    },
-    spec: {
-      properties: InputPropsSchema,
-      state: InputStateSchema,
-      methods: {},
-      slots: ["addAfter", "addBefore", "prefix", "suffix"],
-      styleSlots: ["input"],
-      events: ["onChange", "onBlur", "onFocus"],
-    },
-  }),
-  impl: InputImpl,
+const exampleProperties: Static<typeof InputPropsSchema> = {
+  className: "",
+  allowClear: false,
+  disabled: false,
+  readOnly: false,
+  defaultValue: "",
+  placeholder: "please input",
+  error: false,
+  size: "default",
+  showWordLimit: false,
 };
+
+const options = {
+  version: "arco/v1",
+  metadata: {
+    ...FALLBACK_METADATA,
+    name: "input",
+    displayName: "Input",
+    exampleProperties,
+  },
+  spec: {
+    properties: InputPropsSchema,
+    state: InputStateSchema,
+    methods: {},
+    slots: ["addAfter", "addBefore", "prefix", "suffix"],
+    styleSlots: ["input"],
+    events: ["onChange", "onBlur", "onFocus"],
+  },
+};
+
+export const Input = implementRuntimeComponent(options)(
+  InputImpl as typeof InputImpl & undefined
+);

@@ -1,9 +1,15 @@
 import { Layout as BaseLayout } from "@arco-design/web-react";
-import { ComponentImplementation } from "@sunmao-ui/runtime";
-import { createComponent } from "@sunmao-ui/core";
+import {
+  ComponentImplementation,
+  implementRuntimeComponent,
+} from "@sunmao-ui/runtime";
 import { css } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
-import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
+import {
+  FALLBACK_METADATA,
+  getComponentProps,
+  getInitExampleProperties,
+} from "../sunmao-helper";
 import {
   HeaderPropsSchema as BaseHeaderPropsSchema,
   FooterPropsSchema as BaseFooterPropsSchema,
@@ -23,30 +29,65 @@ const LayoutImpl: ComponentImplementation<Static<typeof LayoutPropsSchema>> = (
 
   return (
     <BaseLayout className={css(customStyle?.content)} {...cProps}>
-       {slotsElements.content}
+      {slotsElements.content}
     </BaseLayout>
   );
 };
-
-export const Layout = {
-  ...createComponent({
-    version: "arco/v1",
-    metadata: {
-      ...FALLBACK_METADATA,
-      name: "layout",
-      displayName: "Layout",
-    },
-    spec: {
-      properties: LayoutPropsSchema,
-      state: LayoutStateSchema,
-      methods: {},
-      slots: ["content"],
-      styleSlots: ["content"],
-      events: [],
-    },
-  }),
-  impl: LayoutImpl,
+const layoutExampleProperties: Static<typeof LayoutPropsSchema> = {
+  about: "",
+  accessKey: "",
+  autoCapitalize: "",
+  autoCorrect: "",
+  autoSave: "",
+  color: "",
+  contextMenu: "",
+  datatype: "",
+  defaultChecked: false,
+  dir: "",
+  hasSider: false,
+  hidden: false,
+  id: "",
+  inputMode: "text",
+  is: "",
+  itemID: "",
+  itemProp: "",
+  itemRef: "",
+  itemScope: false,
+  itemType: "",
+  lang: "",
+  placeholder: "",
+  prefix: "",
+  property: "",
+  radioGroup: "",
+  resource: "",
+  security: "",
+  slot: "",
+  suppressContentEditableWarning: false,
+  suppressHydrationWarning: false,
+  title: "",
+  translate: "yes",
+  typeof: "",
+  unselectable: "on",
+  vocab: "",
 };
+
+export const Layout = implementRuntimeComponent({
+  version: "arco/v1",
+  metadata: {
+    ...FALLBACK_METADATA,
+    name: "layout",
+    displayName: "Layout",
+    exampleProperties: layoutExampleProperties,
+  },
+  spec: {
+    properties: LayoutPropsSchema,
+    state: LayoutStateSchema,
+    methods: {},
+    slots: ["content"],
+    styleSlots: ["content"],
+    events: [],
+  },
+})(LayoutImpl as typeof LayoutImpl & undefined);
 
 const HeaderPropsSchema = Type.Object(BaseHeaderPropsSchema);
 const HeaderStateSchema = Type.Object({});
@@ -59,30 +100,64 @@ const HeaderImpl: ComponentImplementation<Static<typeof HeaderPropsSchema>> = (
 
   return (
     <BaseLayout.Header className={css(customStyle?.content)} {...cProps}>
-     {slotsElements.content}
+      {slotsElements.content}
     </BaseLayout.Header>
   );
 };
-
-export const Header = {
-  ...createComponent({
-    version: "arco/v1",
-    metadata: {
-      ...FALLBACK_METADATA,
-      name: "header",
-      displayName: "Header",
-    },
-    spec: {
-      properties: HeaderPropsSchema,
-      state: HeaderStateSchema,
-      methods: {},
-      slots: ["content"],
-      styleSlots: ["content"],
-      events: [],
-    },
-  }),
-  impl: HeaderImpl,
+const headerExampleProperties: Static<typeof HeaderPropsSchema> = {
+  about: "",
+  accessKey: "",
+  autoCapitalize: "",
+  autoCorrect: "",
+  autoSave: "",
+  color: "",
+  contextMenu: "",
+  datatype: "",
+  defaultChecked: false,
+  dir: "",
+  hidden: false,
+  id: "",
+  inputMode: "text",
+  is: "",
+  itemID: "",
+  itemProp: "",
+  itemRef: "",
+  itemScope: false,
+  itemType: "",
+  lang: "",
+  placeholder: "",
+  prefix: "",
+  property: "",
+  radioGroup: "",
+  resource: "",
+  security: "",
+  slot: "",
+  suppressContentEditableWarning: false,
+  suppressHydrationWarning: false,
+  title: "",
+  translate: "yes",
+  typeof: "",
+  unselectable: "on",
+  vocab: "",
 };
+
+export const Header = implementRuntimeComponent({
+  version: "arco/v1",
+  metadata: {
+    ...FALLBACK_METADATA,
+    name: "header",
+    displayName: "Header",
+    exampleProperties: headerExampleProperties,
+  },
+  spec: {
+    properties: HeaderPropsSchema,
+    state: HeaderStateSchema,
+    methods: {},
+    slots: ["content"],
+    styleSlots: ["content"],
+    events: [],
+  },
+})(HeaderImpl as typeof HeaderImpl & undefined);
 
 const FooterPropsSchema = Type.Object(BaseFooterPropsSchema);
 const FooterStateSchema = Type.Object({});
@@ -95,30 +170,30 @@ const FooterImpl: ComponentImplementation<Static<typeof FooterPropsSchema>> = (
 
   return (
     <BaseLayout.Footer className={css(customStyle?.content)} {...cProps}>
-     {slotsElements.content}
+      {slotsElements.content}
     </BaseLayout.Footer>
   );
 };
 
-export const Footer = {
-  ...createComponent({
-    version: "arco/v1",
-    metadata: {
-      ...FALLBACK_METADATA,
-      name: "footer",
-      displayName: "Footer",
-    },
-    spec: {
-      properties: FooterPropsSchema,
-      state: FooterStateSchema,
-      methods: {},
-      slots: ["content"],
-      styleSlots: ["content"],
-      events: [],
-    },
-  }),
-  impl: FooterImpl,
-};
+const footerExampleProperties = getInitExampleProperties(FooterPropsSchema);
+
+export const Footer = implementRuntimeComponent({
+  version: "arco/v1",
+  metadata: {
+    ...FALLBACK_METADATA,
+    name: "footer",
+    displayName: "Footer",
+    exampleProperties: footerExampleProperties,
+  },
+  spec: {
+    properties: FooterPropsSchema,
+    state: FooterStateSchema,
+    methods: {},
+    slots: ["content"],
+    styleSlots: ["content"],
+    events: [],
+  },
+})(FooterImpl as typeof FooterImpl & undefined);
 
 const ContentPropsSchema = Type.Object(BaseContentPropsSchema);
 const ContentStateSchema = Type.Object({});
@@ -131,30 +206,30 @@ const ContentImpl: ComponentImplementation<
 
   return (
     <BaseLayout.Content className={css(customStyle?.content)} {...cProps}>
-     {slotsElements.content}
+      {slotsElements.content}
     </BaseLayout.Content>
   );
 };
 
-export const Content = {
-  ...createComponent({
-    version: "arco/v1",
-    metadata: {
-      ...FALLBACK_METADATA,
-      name: "content",
-      displayName: "Content",
-    },
-    spec: {
-      properties: ContentPropsSchema,
-      state: ContentStateSchema,
-      methods: {},
-      slots: ["content"],
-      styleSlots: ["content"],
-      events: [],
-    },
-  }),
-  impl: ContentImpl,
-};
+const contentExampleProperties = getInitExampleProperties(ContentPropsSchema);
+
+export const Content = implementRuntimeComponent({
+  version: "arco/v1",
+  metadata: {
+    ...FALLBACK_METADATA,
+    name: "content",
+    displayName: "Content",
+    exampleProperties: contentExampleProperties,
+  },
+  spec: {
+    properties: ContentPropsSchema,
+    state: ContentStateSchema,
+    methods: {},
+    slots: ["content"],
+    styleSlots: ["content"],
+    events: [],
+  },
+})(ContentImpl as typeof ContentImpl & undefined);
 
 const SiderPropsSchema = Type.Object(BaseSiderPropsSchema);
 const SiderStateSchema = Type.Object({});
@@ -167,27 +242,34 @@ const SiderImpl: ComponentImplementation<Static<typeof SiderPropsSchema>> = (
 
   return (
     <BaseLayout.Sider className={css(customStyle?.content)} {...cProps}>
-     {slotsElements.content}
+      {slotsElements.content}
     </BaseLayout.Sider>
   );
 };
 
-export const Sider = {
-  ...createComponent({
-    version: "arco/v1",
-    metadata: {
-      ...FALLBACK_METADATA,
-      name: "sider",
-      displayName: "Sider",
-    },
-    spec: {
-      properties: SiderPropsSchema,
-      state: SiderStateSchema,
-      methods: {},
-      slots: ["content"],
-      styleSlots: ["content"],
-      events: [],
-    },
-  }),
-  impl: SiderImpl,
+const sideExampleProperties: Static<typeof SiderPropsSchema> = {
+  breakpoint: "xl",
+  collapsed: false,
+  collapsible: false,
+  defaultCollapsed: false,
+  reverseArrow: false,
+  theme: "dark",
 };
+
+export const Sider = implementRuntimeComponent({
+  version: "arco/v1",
+  metadata: {
+    ...FALLBACK_METADATA,
+    name: "sider",
+    displayName: "Sider",
+    exampleProperties: sideExampleProperties,
+  },
+  spec: {
+    properties: SiderPropsSchema,
+    state: SiderStateSchema,
+    methods: {},
+    slots: ["content"],
+    styleSlots: ["content"],
+    events: [],
+  },
+})(SiderImpl as typeof SiderImpl & undefined);
