@@ -85,5 +85,5 @@ const options = {
 };
 
 export const Mentions = implementRuntimeComponent(options)(
-  MentionsImpl as typeof BaseMentions & undefined
+  MentionsImpl as typeof MentionsImpl & undefined
 );
