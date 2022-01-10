@@ -1076,7 +1076,7 @@
     react "^17.0.0"
     react-dom "^17.0.0"
 
-"@sunmao-ui/core@0.3.3", "@sunmao-ui/core@^0.3.3":
+"@sunmao-ui/core@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@sunmao-ui/core/-/core-0.3.3.tgz#71a90c5b30a5cb27ba3aa6694ace1bbbde98fc5f"
   integrity sha512-saJ/zYzHt7ElWOx9wuhB8A5NFVMmKtAgjngNpA+6dB5+qQLLa7Vs2+FON2Sbu/+vgCV5Zpxp/fQ1XxkcwGRiZg==
@@ -1084,7 +1084,7 @@
     "@types/json-schema" "^7.0.7"
     lodash-es "^4.17.21"
 
-"@sunmao-ui/editor@0.3.7":
+"@sunmao-ui/editor@^0.3.7":
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/@sunmao-ui/editor/-/editor-0.3.7.tgz#7ce2b59ca5abbff252722f7c93f2249131c35ceb"
   integrity sha512-B5dwfRVsPJIDGDi9IkO44SqBvyPCsColcDCdgU6haGRYhJIDT9STcYVYx3J8rYpexXQdXQRxt+UWg7+aAHHLaQ==
@@ -1107,7 +1107,7 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@sunmao-ui/runtime@0.3.7", "@sunmao-ui/runtime@^0.3.7":
+"@sunmao-ui/runtime@^0.3.7":
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/@sunmao-ui/runtime/-/runtime-0.3.7.tgz#d79ba2d1834c5019a72260bcc22fa65181688747"
   integrity sha512-J7QFSwcKiteGLSgT9zZRxn7cVOMW4nk1+scf1I5Q6h8pKqFEaMpcIZoqJdve0ql4gOLQxTARRDF/9PBNUw50Tw==
