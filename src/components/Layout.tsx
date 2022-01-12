@@ -1,6 +1,6 @@
 import { Layout as BaseLayout } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css } from "@emotion/css";
@@ -21,7 +21,7 @@ import {
 const LayoutPropsSchema = Type.Object(BaseLayoutPropsSchema);
 const LayoutStateSchema = Type.Object({});
 
-const LayoutImpl: ComponentImplementation<Static<typeof LayoutPropsSchema>> = (
+const LayoutImpl: ComponentImpl<Static<typeof LayoutPropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle } = props;
@@ -92,7 +92,7 @@ export const Layout = implementRuntimeComponent({
 const HeaderPropsSchema = Type.Object(BaseHeaderPropsSchema);
 const HeaderStateSchema = Type.Object({});
 
-const HeaderImpl: ComponentImplementation<Static<typeof HeaderPropsSchema>> = (
+const HeaderImpl: ComponentImpl<Static<typeof HeaderPropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle } = props;
@@ -162,7 +162,7 @@ export const Header = implementRuntimeComponent({
 const FooterPropsSchema = Type.Object(BaseFooterPropsSchema);
 const FooterStateSchema = Type.Object({});
 
-const FooterImpl: ComponentImplementation<Static<typeof FooterPropsSchema>> = (
+const FooterImpl: ComponentImpl<Static<typeof FooterPropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle } = props;
@@ -198,7 +198,7 @@ export const Footer = implementRuntimeComponent({
 const ContentPropsSchema = Type.Object(BaseContentPropsSchema);
 const ContentStateSchema = Type.Object({});
 
-const ContentImpl: ComponentImplementation<
+const ContentImpl: ComponentImpl<
   Static<typeof ContentPropsSchema>
 > = (props) => {
   const { slotsElements, customStyle } = props;
@@ -234,7 +234,7 @@ export const Content = implementRuntimeComponent({
 const SiderPropsSchema = Type.Object(BaseSiderPropsSchema);
 const SiderStateSchema = Type.Object({});
 
-const SiderImpl: ComponentImplementation<Static<typeof SiderPropsSchema>> = (
+const SiderImpl: ComponentImpl<Static<typeof SiderPropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle } = props;

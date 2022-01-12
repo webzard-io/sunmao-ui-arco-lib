@@ -1,6 +1,6 @@
 import { Input as BaseInput } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
@@ -17,7 +17,7 @@ const InputStateSchema = Type.Object({
   value: Type.String(),
 });
 
-const InputImpl: ComponentImplementation<Static<typeof InputPropsSchema>> = (
+const InputImpl: ComponentImpl<Static<typeof InputPropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle, callbackMap, mergeState } = props;

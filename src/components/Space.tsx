@@ -1,6 +1,6 @@
 import { Space as BaseSpace } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css } from "@emotion/css";
@@ -21,7 +21,7 @@ const SpacePropsSchema = Type.Object({
 });
 const SpaceStateSchema = Type.Object({});
 
-const SpaceImpl: ComponentImplementation<Static<typeof SpacePropsSchema>> = (
+const SpaceImpl: ComponentImpl<Static<typeof SpacePropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle } = props;

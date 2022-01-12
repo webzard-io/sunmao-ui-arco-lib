@@ -1,6 +1,6 @@
 import { Image as BaseImage } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
@@ -13,7 +13,7 @@ const ImagePropsSchema = Type.Object(BaseImagePropsSchema);
 const ImageStateSchema = Type.Object({});
 
 
-const ImageImpl: ComponentImplementation<Static<typeof ImagePropsSchema>> = (
+const ImageImpl: ComponentImpl<Static<typeof ImagePropsSchema>> = (
   props
 ) => {
   const { customStyle, callbackMap } = props;

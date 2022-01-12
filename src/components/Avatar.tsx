@@ -1,6 +1,6 @@
 import { Avatar as BaseAvatar } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
@@ -15,7 +15,7 @@ const AvatarPropsSchema = Type.Object({
 });
 const AvatarStateSchema = Type.Object({});
 
-const AvatarImpl: ComponentImplementation<Static<typeof AvatarPropsSchema>> = (
+const AvatarImpl: ComponentImpl<Static<typeof AvatarPropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle } = props;

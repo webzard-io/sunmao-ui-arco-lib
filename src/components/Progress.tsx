@@ -1,6 +1,6 @@
 import { Progress as BaseProgress } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
@@ -14,7 +14,7 @@ const ProgressStateSchema = Type.Object({
   percent: Type.String(),
 });
 
-const ProgressImpl: ComponentImplementation<
+const ProgressImpl: ComponentImpl<
   Static<typeof ProgressPropsSchema>
 > = (props) => {
   const { className, ...cProps } = getComponentProps(props);

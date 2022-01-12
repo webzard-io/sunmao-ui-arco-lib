@@ -1,6 +1,6 @@
 import { Dropdown as BaseDropdown } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { Type, Static } from "@sinclair/typebox";
@@ -10,11 +10,12 @@ import { DropdownPropsSchema as BaseDropdownPropsSchema } from "../generated/typ
 const DropdownPropsSchema = Type.Object(BaseDropdownPropsSchema);
 const DropdownStateSchema = Type.Object({});
 
-const DropdownImpl: ComponentImplementation<
+const DropdownImpl: ComponentImpl<
   Static<typeof DropdownPropsSchema>
 > = (props) => {
   const { slotsElements } = props;
   const cProps = getComponentProps(props);
+
   return (
     <BaseDropdown {...cProps} droplist={slotsElements.list}>
       {slotsElements.trigger}

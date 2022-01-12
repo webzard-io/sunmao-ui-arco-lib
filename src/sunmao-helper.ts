@@ -85,6 +85,7 @@ export const getComponentProps = <T, TState, TMethods, KSlot extends string,
   const {
     component,
     slotsElements,
+    childrenMap,
     services,
     app,
     gridCallbacks,

@@ -1,6 +1,6 @@
 import { Mentions as BaseMentions } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
@@ -14,7 +14,7 @@ const MentionsStateSchema = Type.Object({
   value: Type.String(),
 });
 
-const MentionsImpl: ComponentImplementation<
+const MentionsImpl: ComponentImpl<
   Static<typeof MentionsPropsSchema>
 > = (props) => {
   const { className, defaultValue, ...cProps } = getComponentProps(props);

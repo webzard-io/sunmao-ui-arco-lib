@@ -1,6 +1,6 @@
 import { Button as BaseButton } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
@@ -14,12 +14,12 @@ const ButtonPropsSchema = Type.Object({
 });
 const ButtonStateSchema = Type.Object({});
 
-const ButtonImpl: ComponentImplementation<Static<typeof ButtonPropsSchema>> = (
+const ButtonImpl: ComponentImpl<Static<typeof ButtonPropsSchema>> = (
   props
 ) => {
   const { slotsElements, customStyle, callbackMap } = props;
   const { className, ...cProps } = getComponentProps(props);
-
+  
   return (
     <BaseButton
       className={cx(className, css(customStyle?.content))}

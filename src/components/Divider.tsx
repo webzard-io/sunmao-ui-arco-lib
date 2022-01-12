@@ -1,6 +1,6 @@
 import { Divider as BaseDivider } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { createComponent } from "@sunmao-ui/core";
@@ -15,7 +15,7 @@ const DividerPropsSchema = Type.Object({
 });
 const DividerStateSchema = Type.Object({});
 
-const DividerImpl: ComponentImplementation<
+const DividerImpl: ComponentImpl<
   Static<typeof DividerPropsSchema>
 > = (props) => {
   const { customStyle } = props;

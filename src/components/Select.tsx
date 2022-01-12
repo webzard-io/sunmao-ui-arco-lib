@@ -1,6 +1,6 @@
 import { Select as BaseSelect } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css } from "@emotion/css";
@@ -29,7 +29,7 @@ const SelectStateSchema = Type.Object({
   value: Type.String(),
 });
 
-const SelectImpl: ComponentImplementation<Static<typeof SelectPropsSchema>> = (
+const SelectImpl: ComponentImpl<Static<typeof SelectPropsSchema>> = (
   props
 ) => {
   const { customStyle, callbackMap, mergeState, defaultValue = "" } = props;

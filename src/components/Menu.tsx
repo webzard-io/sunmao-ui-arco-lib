@@ -1,6 +1,6 @@
 import { Menu as BaseMenu } from "@arco-design/web-react";
 import {
-  ComponentImplementation,
+  ComponentImpl,
   implementRuntimeComponent,
 } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
@@ -26,7 +26,7 @@ const MenuStateSchema = Type.Object({
   activeKey: Type.Optional(Type.String()),
 });
 
-const MenuImpl: ComponentImplementation<Static<typeof MenuPropsSchema>> = (
+const MenuImpl: ComponentImpl<Static<typeof MenuPropsSchema>> = (
   props
 ) => {
   const { customStyle, callbackMap, mergeState } = props;
