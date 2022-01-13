@@ -2,8 +2,10 @@
 import { Type } from '@sinclair/typebox';
 import { StringUnion } from '../../sunmao-helper';
 
-export const TooltipPropsSchema = {
+export const PopoverPropsSchema = {
     className: Type.Optional(Type.String()),
+    title: Type.Optional(Type.String()),
+    disabled: Type.Optional(Type.Boolean()),
     color: Type.Optional(Type.String()),
     position: Type.Optional(StringUnion(['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'])),
     mini: Type.Optional(Type.Boolean()),
@@ -11,7 +13,6 @@ export const TooltipPropsSchema = {
     defaultPopupVisible: Type.Optional(Type.Boolean()),
     popupHoverStay: Type.Boolean(),
     blurToHide: Type.Optional(Type.Boolean()),
-    disabled: Type.Optional(Type.Boolean()),
     content: Type.Optional(Type.String()),
     controlled: Type.Optional(Type.Boolean()),
     trigger: Type.Optional(

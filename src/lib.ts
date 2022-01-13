@@ -14,6 +14,7 @@ import { Mentions } from './components/Mentions';
 import { Progress } from './components/Progress';
 import { Badge } from "./components/Badge";
 import { Tooltip } from "./components/Tooltip";
+import { Popover } from "./components/Popover";
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
@@ -37,7 +38,8 @@ export const components: Component[] = [
   Mentions,
   Progress,
   Badge,
-  Tooltip
+  Tooltip,
+  Popover
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];

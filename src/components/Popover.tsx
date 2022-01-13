@@ -1,17 +1,17 @@
-import { Tooltip as BaseTooltip } from "@arco-design/web-react";
+import { Popover as BasePopover } from "@arco-design/web-react";
 import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
-import { TooltipPropsSchema as BaseTooltipPropsSchema } from "../generated/types/Tooltip";
+import { PopoverPropsSchema as BasePopoverPropsSchema } from "../generated/types/Popover";
 import { useEffect, useState } from "react";
 
-const TooltipPropsSchema = Type.Object(BaseTooltipPropsSchema);
-const TooltipStateSchema = Type.Object({
+const PopoverPropsSchema = Type.Object(BasePopoverPropsSchema);
+const PopoverStateSchema = Type.Object({
   visible: Type.String(),
 });
 
-const TooltipImpl: ComponentImpl<Static<typeof TooltipPropsSchema>> = (
+const PopoverImpl: ComponentImpl<Static<typeof PopoverPropsSchema>> = (
   props
 ) => {
   const { controlled, ...cProps } = getComponentProps(props);
@@ -36,31 +36,36 @@ const TooltipImpl: ComponentImpl<Static<typeof TooltipPropsSchema>> = (
     mergeState({ visible: popupVisible });
   }, [popupVisible]);
 
-  // two components in the array will be wrapped by span respectively
-  // and arco does not support `array.length===1` think it is a bug
-  // TODO only support arco componets slot now
+  // TODO only support arco componets slot now (same as Tooltip)
   const content = slotsElements.content && slotsElements.content[0];
 
   return controlled ? (
-    <BaseTooltip
+    <BasePopover
       className={cx(className, css(customStyle?.content))}
       {...cProps}
+      content={slotsElements.popupContent}
       popupVisible={popupVisible}
+      onVisibleChange={(visible)=>{
+        if(visible){
+          _setPopupVisible(true)
+        }
+    }}
     >
       {content}
-    </BaseTooltip>
+    </BasePopover>
   ) : (
-    <BaseTooltip
+    <BasePopover
       className={cx(className, css(customStyle?.content))}
       {...cProps}
+      content={slotsElements.popupContent}
     >
       {content}
-    </BaseTooltip>
+    </BasePopover>
   );
 };
-const exampleProperties: Static<typeof TooltipPropsSchema> = {
+const exampleProperties: Static<typeof PopoverPropsSchema> = {
   className: "",
-  color: "red",
+  color: "#eee",
   position: "bottom",
   mini: false,
   unmountOnExit: true,
@@ -68,31 +73,32 @@ const exampleProperties: Static<typeof TooltipPropsSchema> = {
   popupHoverStay: true,
   blurToHide: true,
   disabled: false,
-  content: "This is tooltip",
+  content: "This is Popover",
   controlled: false,
-  trigger:['hover','click']
+  trigger: "hover",
+  title:'Title'
 };
 
 const options = {
   version: "arco/v1",
   metadata: {
     ...FALLBACK_METADATA,
-    name: "Tooltip",
-    displayName: "Tooltip",
+    name: "Popover",
+    displayName: "Popover",
     exampleProperties,
   },
   spec: {
-    properties: TooltipPropsSchema,
-    state: TooltipStateSchema,
+    properties: PopoverPropsSchema,
+    state: PopoverStateSchema,
     methods: {
       setPopupVisible: Type.String(),
     },
-    slots: ["content"],
+    slots: ["popupContent",'content'],
     styleSlots: ["content"],
     events: [],
   },
 };
 
-export const Tooltip = implementRuntimeComponent(options)(
-  TooltipImpl as typeof TooltipImpl & undefined
+export const Popover = implementRuntimeComponent(options)(
+  PopoverImpl as typeof PopoverImpl & undefined
 );
