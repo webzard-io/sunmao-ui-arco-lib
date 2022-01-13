@@ -5,13 +5,14 @@ import { StringUnion } from '../../sunmao-helper';
 export const TooltipPropsSchema = {
     className: Type.Optional(Type.String()),
     color: Type.Optional(Type.String()),
-    position: Type.Optional(StringUnion([ 'top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'])),
+    position: Type.Optional(StringUnion(['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'])),
     mini: Type.Optional(Type.Boolean()),
-    unmountOnExit:Type.Optional(Type.Boolean()),
-    defaultPopupVisible:Type.Optional(Type.Boolean()),
-    popupVisible:Type.Boolean(),
-    popupHoverStay:Type.Boolean(),
-    blurToHide:Type.Optional(Type.Boolean()),
-    disabled:Type.Optional(Type.Boolean()),
-    content:Type.Optional(Type.String())
+    unmountOnExit: Type.Optional(Type.Boolean()),
+    defaultPopupVisible: Type.Optional(Type.Boolean()),
+    // popupVisible: Type.Boolean(),
+    popupHoverStay: Type.Boolean(),
+    blurToHide: Type.Optional(Type.Boolean()),
+    disabled: Type.Optional(Type.Boolean()),
+    content: Type.Optional(Type.String()),
+    controlled: Type.Optional(Type.Boolean()),
 }
