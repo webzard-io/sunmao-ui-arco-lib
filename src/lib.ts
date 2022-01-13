@@ -13,6 +13,7 @@ import { Avatar } from "./components/Avatar";
 import { Mentions } from './components/Mentions';
 import { Progress } from './components/Progress';
 import { Badge } from "./components/Badge";
+import { Tooltip } from "./components/Tooltip";
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
@@ -35,7 +36,8 @@ export const components: Component[] = [
   Avatar,
   Mentions,
   Progress,
-  Badge
+  Badge,
+  Tooltip
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];
