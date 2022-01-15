@@ -16,6 +16,7 @@ import { Badge } from "./components/Badge";
 import { Tooltip } from "./components/Tooltip";
 import { Popover } from "./components/Popover";
 import { Collapse, CollapseItem } from "./components/Collapse";
+import { Cascader } from "./components/Cascader";
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
@@ -42,7 +43,8 @@ export const components: Component[] = [
   Tooltip,
   Popover,
   Collapse,
-  CollapseItem
+  CollapseItem,
+  Cascader
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];
