@@ -21,11 +21,11 @@ const BadgeImpl: ComponentImpl<Static<typeof BadgePropsSchema>> = (props) => {
   const [text, _setText] = useState(defaultText);
 
   // TODO
-  // arco如果设置status，即使不设置dot=true也会是dot模式，这会造成一些迷惑，所以暂时在这里处理一下
-  // 如果不设置dot=true，status就无效
-  // 后续打算提一个pr
+  // arco如果设置status和color，即使不设置dot=true也会是dot模式，这会造成一些迷惑，所以暂时在这里处理一下
+  // 如果不设置dot=true，status和color就无效
   if (!cProps.dot) {
     Reflect.deleteProperty(cProps, "status");
+    Reflect.deleteProperty(cProps, "color");
   }
 
   useEffect(() => {
