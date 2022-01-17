@@ -80,7 +80,7 @@ const CascaderImpl: ComponentImpl<Static<typeof CascaderPropsSchema>> = (
 
   let defaultValue = cProps.defaultValue;
   if (mode === "multiple" && !Array.isArray(cProps.defaultValue[0])) {
-    defaultValue = [cProps.defaultValue as unknown as string];
+    defaultValue = [cProps.defaultValue as string[]];
   }
 
   const [value, _setValue] = useState(defaultValue);
