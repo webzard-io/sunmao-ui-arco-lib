@@ -31,10 +31,10 @@ const PopoverImpl: ComponentImpl<Static<typeof PopoverPropsSchema>> = (
         _setPopupVisible(!!visible);
       },
     });
-  }, []);
+  }, [subscribeMethods]);
   useEffect(() => {
     mergeState({ visible: popupVisible });
-  }, [popupVisible]);
+  }, [popupVisible,mergeState]);
 
   // TODO only support arco componets slot now (same as Tooltip)
   const content = slotsElements.content && slotsElements.content[0];

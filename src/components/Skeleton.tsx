@@ -14,34 +14,17 @@ const SkeletonStateSchema = Type.Object({
 const SkeletonImpl: ComponentImpl<Static<typeof SkeletonPropsSchema>> = (
   props
 ) => {
-  const { defaultLoading, ...cProps } = getComponentProps(props);
+  const { ...cProps } = getComponentProps(props);
   const {
     customStyle,
     className,
     slotsElements,
-    mergeState,
-    subscribeMethods,
   } = props;
-
-  const [loading, _setLoading] = useState(defaultLoading);
-
-  useEffect(() => {
-    mergeState({ loading });
-  }, [loading]);
-
-  useEffect(() => {
-    subscribeMethods({
-      setLoading({ loading }) {
-        _setLoading(loading);
-      },
-    });
-  }, []);
 
   return (
     <BaseSkeleton
       className={cx(className, css(customStyle?.content))}
       {...cProps}
-      loading={loading}
     >
       {slotsElements.content}
     </BaseSkeleton>
@@ -51,7 +34,7 @@ const SkeletonImpl: ComponentImpl<Static<typeof SkeletonPropsSchema>> = (
 const exampleProperties: Static<typeof SkeletonPropsSchema> = {
   className: "",
   animation: true,
-  defaultLoading: true,
+  loading: true,
   image: false,
   text: { rows: 3, width: ["100%", 600, 400] },
 };
