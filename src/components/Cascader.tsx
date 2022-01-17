@@ -126,9 +126,7 @@ const options = {
   spec: {
     properties: CascaderPropsSchema,
     state: CascaderStateSchema,
-    methods: {
-      setPopupVisible: Type.String(),
-    },
+    methods: {},
     slots: ["content"],
     styleSlots: ["content"],
     events: [],
