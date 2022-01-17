@@ -67,7 +67,6 @@ const CascaderImpl: ComponentImpl<Static<typeof CascaderPropsSchema>> = (
   const { multiple, placeholder, ...cProps } = getComponentProps(props);
   const {
     mergeState,
-    subscribeMethods,
     slotsElements,
     customStyle,
     className,
@@ -91,14 +90,6 @@ const CascaderImpl: ComponentImpl<Static<typeof CascaderPropsSchema>> = (
       _setValue([value as string[]]);
     }
   }, [mode]);
-
-  useEffect(() => {
-    subscribeMethods({
-      setValue({ value }) {
-        _setValue(value);
-      },
-    });
-  }, [subscribeMethods]);
 
   useEffect(() => {
     mergeState({ value });
