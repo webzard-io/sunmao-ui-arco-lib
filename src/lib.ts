@@ -46,7 +46,7 @@ export const components: Component[] = [
   Collapse,
   CollapseItem,
   Cascader,
-  Skeleton
+  Skeleton,
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];

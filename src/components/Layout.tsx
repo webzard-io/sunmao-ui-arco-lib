@@ -1,14 +1,10 @@
 import { Layout as BaseLayout } from "@arco-design/web-react";
-import {
-  ComponentImpl,
-  implementRuntimeComponent,
-} from "@sunmao-ui/runtime";
+import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import {
   FALLBACK_METADATA,
   getComponentProps,
-  getInitExampleProperties,
 } from "../sunmao-helper";
 import {
   HeaderPropsSchema as BaseHeaderPropsSchema,
@@ -21,9 +17,7 @@ import {
 const LayoutPropsSchema = Type.Object(BaseLayoutPropsSchema);
 const LayoutStateSchema = Type.Object({});
 
-const LayoutImpl: ComponentImpl<Static<typeof LayoutPropsSchema>> = (
-  props
-) => {
+const LayoutImpl: ComponentImpl<Static<typeof LayoutPropsSchema>> = (props) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
@@ -92,9 +86,7 @@ export const Layout = implementRuntimeComponent({
 const HeaderPropsSchema = Type.Object(BaseHeaderPropsSchema);
 const HeaderStateSchema = Type.Object({});
 
-const HeaderImpl: ComponentImpl<Static<typeof HeaderPropsSchema>> = (
-  props
-) => {
+const HeaderImpl: ComponentImpl<Static<typeof HeaderPropsSchema>> = (props) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
@@ -162,9 +154,7 @@ export const Header = implementRuntimeComponent({
 const FooterPropsSchema = Type.Object(BaseFooterPropsSchema);
 const FooterStateSchema = Type.Object({});
 
-const FooterImpl: ComponentImpl<Static<typeof FooterPropsSchema>> = (
-  props
-) => {
+const FooterImpl: ComponentImpl<Static<typeof FooterPropsSchema>> = (props) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
@@ -175,7 +165,42 @@ const FooterImpl: ComponentImpl<Static<typeof FooterPropsSchema>> = (
   );
 };
 
-const footerExampleProperties = getInitExampleProperties(FooterPropsSchema);
+const footerExampleProperties = {
+  defaultChecked: false,
+  suppressContentEditableWarning: false,
+  suppressHydrationWarning: false,
+  accessKey: "",
+  contextMenu: "",
+  dir: "",
+  hidden: false,
+  id: "",
+  lang: "",
+  placeholder: "",
+  slot: "",
+  title: "",
+  translate: "yes",
+  radioGroup: "",
+  about: "",
+  datatype: "",
+  prefix: "",
+  property: "",
+  resource: "",
+  typeof: "",
+  vocab: "",
+  autoCapitalize: "",
+  autoCorrect: "",
+  autoSave: "",
+  color: "",
+  itemProp: "",
+  itemScope: false,
+  itemType: "",
+  itemID: "",
+  itemRef: "",
+  security: "",
+  unselectable: "on",
+  inputMode: "text",
+  is: "",
+};
 
 export const Footer = implementRuntimeComponent({
   version: "arco/v1",
@@ -198,9 +223,9 @@ export const Footer = implementRuntimeComponent({
 const ContentPropsSchema = Type.Object(BaseContentPropsSchema);
 const ContentStateSchema = Type.Object({});
 
-const ContentImpl: ComponentImpl<
-  Static<typeof ContentPropsSchema>
-> = (props) => {
+const ContentImpl: ComponentImpl<Static<typeof ContentPropsSchema>> = (
+  props
+) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
@@ -211,7 +236,42 @@ const ContentImpl: ComponentImpl<
   );
 };
 
-const contentExampleProperties = getInitExampleProperties(ContentPropsSchema);
+const contentExampleProperties = {
+  defaultChecked: false,
+  suppressContentEditableWarning: false,
+  suppressHydrationWarning: false,
+  accessKey: "",
+  contextMenu: "",
+  dir: "",
+  hidden: false,
+  id: "",
+  lang: "",
+  placeholder: "",
+  slot: "",
+  title: "",
+  translate: "yes",
+  radioGroup: "",
+  about: "",
+  datatype: "",
+  prefix: "",
+  property: "",
+  resource: "",
+  typeof: "",
+  vocab: "",
+  autoCapitalize: "",
+  autoCorrect: "",
+  autoSave: "",
+  color: "",
+  itemProp: "",
+  itemScope: false,
+  itemType: "",
+  itemID: "",
+  itemRef: "",
+  security: "",
+  unselectable: "on",
+  inputMode: "text",
+  is: "",
+};
 
 export const Content = implementRuntimeComponent({
   version: "arco/v1",
@@ -234,9 +294,7 @@ export const Content = implementRuntimeComponent({
 const SiderPropsSchema = Type.Object(BaseSiderPropsSchema);
 const SiderStateSchema = Type.Object({});
 
-const SiderImpl: ComponentImpl<Static<typeof SiderPropsSchema>> = (
-  props
-) => {
+const SiderImpl: ComponentImpl<Static<typeof SiderPropsSchema>> = (props) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 

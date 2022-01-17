@@ -1,8 +1,5 @@
 import { Mentions as BaseMentions } from "@arco-design/web-react";
-import {
-  ComponentImpl,
-  implementRuntimeComponent,
-} from "@sunmao-ui/runtime";
+import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
@@ -14,9 +11,9 @@ const MentionsStateSchema = Type.Object({
   value: Type.String(),
 });
 
-const MentionsImpl: ComponentImpl<
-  Static<typeof MentionsPropsSchema>
-> = (props) => {
+const MentionsImpl: ComponentImpl<Static<typeof MentionsPropsSchema>> = (
+  props
+) => {
   const { className, defaultValue, ...cProps } = getComponentProps(props);
   const { mergeState, customStyle } = props;
 
