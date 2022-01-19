@@ -4,12 +4,9 @@ import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { SkeletonPropsSchema as BaseSkeletonPropsSchema } from "../generated/types/Skeleton";
-import { useState, useEffect } from "react";
 
 const SkeletonPropsSchema = Type.Object(BaseSkeletonPropsSchema);
-const SkeletonStateSchema = Type.Object({
-  loading: Type.Boolean(),
-});
+const SkeletonStateSchema = Type.Object({});
 
 const SkeletonImpl: ComponentImpl<Static<typeof SkeletonPropsSchema>> = (
   props
@@ -50,9 +47,7 @@ const options = {
   spec: {
     properties: SkeletonPropsSchema,
     state: SkeletonStateSchema,
-    methods: {
-      setLoading: Type.String(),
-    },
+    methods: {},
     slots: ["content"],
     styleSlots: ["content"],
     events: [],
