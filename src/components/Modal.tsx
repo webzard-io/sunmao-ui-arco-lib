@@ -1,6 +1,6 @@
 import { Modal as BaseModal } from "@arco-design/web-react";
 import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
-import { css, cx} from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { ModalPropsSchema as BaseModalPropsSchema } from "../generated/types/Modal";
@@ -12,7 +12,13 @@ const ModalStateSchema = Type.Object({
 });
 
 const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
-  const { subscribeMethods, mergeState, slotsElements, customStyle } = props;
+  const {
+    subscribeMethods,
+    mergeState,
+    slotsElements,
+    customStyle,
+    callbackMap,
+  } = props;
   const { className, title, ...cProps } = getComponentProps(props);
   const [visible, _setVisible] = useState(true);
 
@@ -26,7 +32,7 @@ const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
         _setVisible(!!visible);
       },
     });
-  },[subscribeMethods]);
+  }, [subscribeMethods]);
 
   return (
     <BaseModal
@@ -39,10 +45,14 @@ const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
       }
       onCancel={() => {
         _setVisible(false);
+        callbackMap?.onCancel();
       }}
       onOk={() => {
         _setVisible(false);
+        callbackMap?.onOk();
       }}
+      afterClose={callbackMap?.afterClose}
+      afterOpen={callbackMap?.afterOpen}
       footer={slotsElements.footer}
       className={cx(className, css(customStyle?.content))}
       {...cProps}
@@ -79,8 +89,8 @@ export const Modal = implementRuntimeComponent({
         visible: Type.String(),
       }),
     },
-    slots: ["title","content", "footer"],
+    slots: ["title", "content", "footer"],
     styleSlots: ["content"],
-    events: ["setVisible"],
+    events: ["afterOpen", "afterClose", "onCancel", "onOk"],
   },
 })(ModalImpl);
