@@ -65,13 +65,7 @@ const CascaderImpl: ComponentImpl<Static<typeof CascaderPropsSchema>> = (
   props
 ) => {
   const { multiple, placeholder, ...cProps } = getComponentProps(props);
-  const {
-    mergeState,
-    slotsElements,
-    customStyle,
-    className,
-    options,
-  } = props;
+  const { mergeState, slotsElements, customStyle, className, options } = props;
 
   const content = slotsElements.content && slotsElements.content[0];
 
@@ -164,6 +158,4 @@ const options = {
   },
 };
 
-export const Cascader = implementRuntimeComponent(options)(
-  CascaderImpl as typeof CascaderImpl & undefined
-);
+export const Cascader = implementRuntimeComponent(options)(CascaderImpl);

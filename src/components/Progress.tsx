@@ -58,10 +58,8 @@ const options = {
     methods: {},
     slots: [],
     styleSlots: ["content"],
-    events: [""],
+    events: [],
   },
 };
 
-export const Progress = implementRuntimeComponent(options)(
-  ProgressImpl as typeof ProgressImpl & undefined
-);
+export const Progress = implementRuntimeComponent(options)(ProgressImpl);

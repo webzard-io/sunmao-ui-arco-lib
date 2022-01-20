@@ -12,11 +12,7 @@ const SkeletonImpl: ComponentImpl<Static<typeof SkeletonPropsSchema>> = (
   props
 ) => {
   const { ...cProps } = getComponentProps(props);
-  const {
-    customStyle,
-    className,
-    slotsElements,
-  } = props;
+  const { customStyle, className, slotsElements } = props;
 
   return (
     <BaseSkeleton
@@ -54,6 +50,4 @@ const options = {
   },
 };
 
-export const Skeleton = implementRuntimeComponent(options)(
-  SkeletonImpl as typeof SkeletonImpl & undefined
-);
+export const Skeleton = implementRuntimeComponent(options)(SkeletonImpl);

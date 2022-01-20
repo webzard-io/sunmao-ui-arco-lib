@@ -50,6 +50,4 @@ const options = {
   },
 };
 
-export const Avatar = implementRuntimeComponent(options)(
-  AvatarImpl as typeof AvatarImpl & undefined
-);
+export const Avatar = implementRuntimeComponent(options)(AvatarImpl);

@@ -52,10 +52,8 @@ const options = {
     methods: {},
     slots: ["content"],
     styleSlots: ["content"],
-    events: [""],
+    events: [],
   },
 };
 
-export const Badge = implementRuntimeComponent(options)(
-  BadgeImpl as typeof BadgeImpl & undefined
-);
+export const Badge = implementRuntimeComponent(options)(BadgeImpl);
