@@ -14,8 +14,9 @@ import {
 
 const DropdownPropsSchema = Type.Object(BaseDropdownPropsSchema);
 const DropdownStateSchema = Type.Object({
-  keyPath: Type.Array(Type.String()),
-  key: Type.String()
+  selectedItemKey: Type.String(),
+  keyPath: Type.Optional(Type.Array(Type.String())),
+  visible: Type.Boolean()
 });
 
 const DropdownImpl: ComponentImpl<
@@ -35,10 +36,16 @@ const DropdownImpl: ComponentImpl<
 
   const onClickMenuItem = (key: string, event: any, keyPath: string[])=> {
     mergeState({
-      key,
+      selectedItemKey: key,
       keyPath: keyPath || []
     });
     callbackMap?.onClickMenuItem?.();
+  }
+  const onVisibleChange = (visible: boolean)=> {
+    mergeState({
+      visible
+    });
+    callbackMap?.onVisibleChange?.();
   }
 
   const Dropdown = typeMap[dropdownType];
@@ -46,7 +53,7 @@ const DropdownImpl: ComponentImpl<
     <BaseMenu onClickMenuItem={onClickMenuItem}>
       {
         (list || []).map((item)=> (
-          <BaseMenu.Item key={item.value}>{item.label}</BaseMenu.Item>
+          <BaseMenu.Item key={item.key}>{item.label}</BaseMenu.Item>
         ))
       }
     </BaseMenu>
@@ -56,7 +63,7 @@ const DropdownImpl: ComponentImpl<
     <Dropdown 
       {...restProps}
       droplist={droplist}
-      onVisibleChange={callbackMap?.onVisibleChange}
+      onVisibleChange={onVisibleChange}
       onClick={callbackMap?.onButtonClick}
     >
       {slotsElements.trigger}

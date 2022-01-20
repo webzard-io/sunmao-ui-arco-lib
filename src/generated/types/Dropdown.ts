@@ -10,7 +10,7 @@ export const DropdownPropsSchema = {
   'unmountOnExit': Type.Optional(Type.Boolean()),
   'defaultPopupVisible': Type.Optional(Type.Boolean()),
   'list': Type.Optional(Type.Array(Type.Object({
-    value: Type.String(),
+    key: Type.String(),
     label: Type.String(),
   })))
 };
