@@ -71,7 +71,7 @@ const buttonWithIcon: Application = {
         ],
       },
       {
-        id: "iconplus",
+        id: "iconplus2",
         type: "arco/v1/icon",
         properties: {
           name: "IconDelete",

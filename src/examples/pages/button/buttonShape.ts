@@ -109,7 +109,7 @@ const buttonShape: Application = {
         ],
       },
       {
-        id: "iconplus",
+        id: "iconplus3",
         type: "arco/v1/icon",
         properties: {
           name: "IconDelete",
