@@ -22,6 +22,7 @@ import { Skeleton } from "./components/Skeleton";
 import { Timeline } from "./components/Timeline";
 import { TreeSelect } from "./components/TreeSelect";
 import { Checkbox } from './components/Checkbox';
+import { Modal } from "./components/Modal";
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
@@ -29,6 +30,7 @@ type Module = Parameters<Registry["registerModule"]>[0];
 
 export const components: Component[] = [
   TreeSelect,
+  Modal,
   Button,
   Header,
   Content,
