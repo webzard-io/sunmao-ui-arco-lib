@@ -1,67 +1,127 @@
 import {
   Button,
+  Link,
+  Input,
   Table as BaseTable,
   PaginationProps,
 } from "@arco-design/web-react";
-import { SorterResult } from "@arco-design/web-react/lib/Table/interface";
 import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../../sunmao-helper";
 import { TablePropsSchema } from "../../generated/types/Table";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { exampleProperties } from "./spec";
 import { sortBy } from "lodash-es";
 import {
   LIST_ITEM_EXP,
   LIST_ITEM_INDEX_EXP,
   ModuleRenderer,
-  UIServices,
 } from "@sunmao-ui/runtime";
 
 const TableStateSchema = Type.Object({
   selectedRows: Type.Optional(Type.Array(Type.Any())),
   selectedItem: Type.Optional(Type.Any()),
+  allData: Type.Optional(Type.Any()),
 });
 
+type SortRule = {
+  field: string;
+  direction?: "ascend" | "descend";
+};
+
 const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
-  const {
-    app,
-    subscribeMethods,
-    mergeState,
-    slotsElements,
-    customStyle,
-    callbackMap,
-    services,
-  } = props;
+  const { app, mergeState, customStyle, services, data } = props;
 
-  subscribeMethods({
-    print() {
-      console.log("this is a table");
-    },
-  });
-
-  const { className, defaultData, columns, ...cProps } =
+  const { className, columns, pagination, ...cProps } =
     getComponentProps(props);
 
   const rowSelectionType: "checkbox" | "radio" | undefined =
     cProps.rowSelectionType === "default" ? undefined : cProps.rowSelectionType;
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
-  const [data, setData] = useState(defaultData || []);
-  const ref = useRef<any[]>([]);
-  ref.current = data;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortRule, setSortRule] = useState<SortRule>({
+    field: "name",
+    direction: undefined,
+  });
+  const [filterRule, setFilterRule] = useState();
 
-  const removeRows = (rowKey: number | string | (number | string)[]) => {
-    console.log("%c==============removeRowKey==============", "color:green");
-    if (Array.isArray(rowKey)) {
-      setData(ref.current.filter((item) => rowKey.indexOf(item.key)));
-      return;
+  const filteredData = useMemo(() => {
+    console.log(
+      "%c===========usememo filterData=================",
+      "color:green"
+    );
+    let filteredData = data;
+    if (filterRule) {
+      Object.keys(filterRule).forEach((colIdx) => {
+        const value = filterRule[colIdx][0];
+        filteredData = filteredData?.filter((row) =>
+          value ? row[colIdx].indexOf(value) !== -1 : true
+        );
+      });
     }
-    setData(ref.current.filter((item) => item.key !== rowKey));
+    return filteredData;
+  }, [data, filterRule]);
+
+  const sortedData = useMemo(() => {
+    console.log(
+      "%c===========usememo sortedData=================",
+      "color:#c10"
+    );
+
+    if (!sortRule || !sortRule.direction) {
+      return filteredData;
+    }
+
+    const sorted = sortBy(filteredData, sortRule.field);
+    return sortRule.direction === "ascend" ? sorted : sorted.reverse();
+  }, [filteredData, sortRule]);
+  const { pageSize } = pagination;
+
+  const currentPageData = sortedData?.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  const clearState = () => {
+    mergeState({ selectedRows: [] });
+    mergeState({ selectedItem: undefined });
   };
+  const inputRef = useRef(null);
 
   for (const column of columns!) {
+    if (column.filter) {
+      (column as any).filterDropdown = ({
+        filterKeys,
+        setFilterKeys,
+        confirm,
+      }) => {
+        return (
+          <div className="arco-table-custom-filter">
+            <Input.Search
+              ref={inputRef}
+              searchButton
+              placeholder="Please enter name"
+              value={filterKeys[0] || ""}
+              onChange={(value) => {
+                setFilterKeys(value ? [value] : []);
+              }}
+              onSearch={() => {
+                confirm();
+              }}
+            />
+          </div>
+        );
+      };
+
+      // (column as any).onFilterDropdownVisibleChange = (visible) => {
+      //   if (visible) {
+      //     setTimeout(() => inputRef.current!.focus(), 150);
+      //   }
+      // };
+    }
+
     column.render = (ceilValue: any, record: any, index: number) => {
       const value = record[column.dataIndex];
 
@@ -69,10 +129,29 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
 
       switch (column.type) {
         case "button":
-          colItem = <Button>{column.btnCfg?.text}</Button>;
+          const handleClick = (record: any) => {
+            column.btnCfg?.handlers.forEach((handler) => {
+              services.apiService.send("uiMethod", {
+                componentId: handler.componentId,
+                name: handler.method.name,
+                parameters: record,
+              });
+            });
+          };
+          colItem = (
+            <Button
+              onClick={() => {
+                handleClick(record);
+              }}
+            >
+              {column.btnCfg?.text}
+            </Button>
+          );
+          break;
+        case "link":
+          colItem = <Link href={value}>{value}</Link>;
           break;
         case "module":
-          console.log("module: ", app);
           const evalScope = {
             [LIST_ITEM_EXP]: record,
             [LIST_ITEM_INDEX_EXP]: index,
@@ -101,28 +180,34 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
     pagination: PaginationProps,
     sorter: { field?: string; direction?: "descend" | "ascend" },
     filter,
-    data
+    curData
   ) => {
     console.log("%c==============handlerchange==============", "color:green");
 
-    const field = sorter.field;
-    const desc = sorter.direction;
-    // TODO have some problem
-    if (!desc) {
-      // setData(defaultData || []);
+    const { current } = pagination;
+    if (current !== currentPage) {
+      setCurrentPage(current!);
       return;
     }
-    const currentData = data.currentData;
-    const sortedData = sortBy(currentData, field);
-    setData(desc === "ascend" ? sortedData : sortedData.reverse());
+
+    setSortRule(sorter as SortRule);
+
+    setFilterRule(filter);
   };
 
+  //   console.log(ref.current,data)
+  console.log("rerender", currentPageData, columns);
   return (
     <BaseTable
       className={cx(className, css(customStyle?.content))}
       {...cProps}
       columns={columns}
-      data={ref.current}
+      pagination={{
+        total: sortedData!.length,
+        current: currentPage,
+      }}
+      //   pagination={true}
+      data={currentPageData}
       onChange={handleChange}
       rowSelection={{
         type: rowSelectionType,
@@ -132,8 +217,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
         },
         onSelect: (selected, record, selectedRows) => {
           if (!selected) {
-            mergeState({ selectedRows: [] });
-            mergeState({ selectedItem: undefined });
+            clearState();
             return;
           }
           mergeState({ selectedRows });
@@ -157,9 +241,11 @@ export const Table = implementRuntimeComponent({
     state: TableStateSchema,
     methods: {
       print: Type.String(),
+      deleteSelected: Type.String(),
+      deleteRows: Type.String(),
     },
     slots: [],
     styleSlots: ["content"],
-    events: ["setData"],
+    events: [],
   },
 })(TableImpl);

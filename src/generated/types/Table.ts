@@ -2,28 +2,33 @@
 import { Type } from "@sinclair/typebox";
 import { StringUnion } from '../../sunmao-helper';
 
+export const handlerSchema = Type.Array(Type.Object({
+  componentId: Type.String(),
+  type: Type.Optional(Type.String()),
+  method: Type.Object({
+    name: Type.String(),
+    parameters: Type.Optional(Type.Object(Type.Any()))
+  })
+}))
+
 export const ColumnSchema = Type.Object({
   title: Type.String(),
   dataIndex: Type.String(),
-  onSorttt: Type.Optional(Type.Boolean()),
   sorter: Type.Optional(Type.Boolean()),
+  filter:Type.Optional(Type.Boolean()),
+  // filterDropdown:Type.Optional(Type.Any()),
   sortDirections: Type.Optional(Type.Array(Type.String())),
   defaultSortOrder: Type.Optional(Type.String()),
   render: Type.Optional(Type.Any()),
+
   type: Type.Optional(Type.String()),
   btnCfg: Type.Optional(Type.Object({
-    text: Type.String()
+    text: Type.String(),
+    handlers: handlerSchema,
   })),
   module: Type.Optional(Type.Object({
     id: Type.String(),
-    handlers: Type.Array(Type.Object({
-      componentId: Type.String(),
-      type:Type.String(),
-      method: Type.Object({
-        name: Type.String(),
-        parameters: Type.Optional(Type.Object(Type.Any()))
-      })
-    })),
+    handlers: handlerSchema,
     properties: Type.Array(Type.Any()),
     type: Type.String()
   }))
@@ -38,12 +43,17 @@ export const TablePropsSchema = Type.Object({
   defaultExpandAllRows: Type.Optional(Type.Boolean()),
   showHeader: Type.Optional(Type.Boolean()),
   stripe: Type.Optional(Type.Boolean()),
+  pagination:Type.Object({
+    pageSize:Type.Number(),
+    // total:Type.Number(),
+    current:Type.Number(),
+  }),
   size: Type.Optional(StringUnion(['default', 'middle', 'small', 'mini'])),
   pagePosition: Type.Optional(StringUnion(['br', 'bl', 'tr', 'tl', 'topCenter', 'bottomCenter'])),
   // childrenColumnName: Type.Optional(Type.String()),
   indentSize: Type.Optional(Type.Number()),
   virtualized: Type.Optional(Type.Boolean()),
   rowSelectionType: Type.Optional(StringUnion(["checkbox", "radio", "default"])),
-  defaultData: Type.Optional(Type.Array(Type.Any())),
+  data: Type.Optional(Type.Array(Type.Any())),
   columns: Type.Optional(Type.Array(ColumnSchema)),
 });

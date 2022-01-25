@@ -10,88 +10,86 @@ export const exampleProperties: Static<typeof TablePropsSchema> = {
             sortDirections: ['ascend'],
             defaultSortOrder: 'ascend',
             type: 'text',
+            filter: true
+
         },
         {
             title: 'Salary',
             dataIndex: 'salary',
             sorter: true
-            // sorter:(a,b)=>a.salary-b.salary,
         },
         {
-            title: 'Address',
-            dataIndex: 'address',
+            title: 'Time',
+            dataIndex: 'time',
+            sorter: true
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
+            title: 'Link',
+            dataIndex: 'link',
+            type: 'link',
+            filter: true
         },
-        {
-            title: 'Operation',
-            dataIndex: 'operation',
-            type: 'button',
-            btnCfg: {
-                text: 'delete'
-            }
-        },
-        {
-            title: 'MutiOperation',
-            dataIndex: 'mutiOperation',
-            type: 'module',
-            module: {
-                id: 'clistItemName-{{$listItem.id}}',
-                handlers: [
-                    {
-                        type: 'onClick',
-                        componentId: 'Table1',
-                        method: {
-                            name: 'print',
-                            parameters: {}
-                        }
-                    }
-                ],
-                properties: [],
-                type: 'core/v1/text'
-            }
-        },
+        // {
+        //     title: 'Address',
+        //     dataIndex: 'address',
+        // },
+        // {
+        //     title: 'Email',
+        //     dataIndex: 'email',
+        // },
+        // {
+        //     title: 'Operation',
+        //     dataIndex: 'operation',
+        //     type: 'button',
+        //     btnCfg: {
+        //         text: 'delete',
+        //         handlers: [
+        //             {
+        //                 componentId: 'Table1',
+        //                 method: {
+        //                     name: 'deleteRows',
+        //                 }
+        //             }
+        //         ]
+        //     }
+        // },
+        // {
+        //     title: 'MutiOperation',
+        //     dataIndex: 'mutiOperation',
+        //     type: 'module',
+        //     module: {
+        //         id: 'clistItemName-{{$listItem.id}}',
+        //         handlers: [
+        //             {
+        //                 type: 'onClick',
+        //                 componentId: 'Table1',
+        //                 method: {
+        //                     name: 'print',
+        //                     parameters: {}
+        //                 }
+        //             }
+        //         ],
+        //         properties: [],
+        //         type: 'core/v1/text'
+        //     }
+        // },
     ],
-    defaultData: [
-        {
-            key: '1',
-            name: 'Jane Doe',
-            salary: 23000,
-            address: '32 Park Road, London',
-            email: 'jane.doe@example.com',
-            operation: 'delete'
-        },
-        {
-            key: '2',
-            name: 'Alisa Ross',
-            salary: 25000,
-            address: '35 Park Road, London',
-            email: 'alisa.ross@example.com',
-        },
-        {
-            key: '3',
-            name: 'Kevin Sandra',
-            salary: 22000,
-            address: '31 Park Road, London',
-            email: 'kevin.sandra@example.com',
-        },
-        {
-            key: '4',
-            name: 'Ed Hellen',
-            salary: 17000,
-            address: '42 Park Road, London',
-            email: 'ed.hellen@example.com',
-        },
-        {
-            key: '5',
-            name: 'William Smith',
-            salary: 27000,
-            address: '62 Park Road, London',
-            email: 'william.smith@example.com',
-        },
-    ],
+    data: Array(200)
+        .fill('')
+        .map((_, index) => ({
+            key: `${index}`,
+            name: `${Math.random() > 0.5 ? 'Kevin Sandra' : 'xzdry'}${index}`,
+            link: `link${Math.random() > 0.5 ? '-A' : '-B'}`,
+            salary: Math.floor(Math.random() * 1000),
+            // salary: Math.random()>0.5?Math.floor(Math.random()*1000):'2a',
+            // address: `${index} Park Road, London`,
+            // email: `kevin.sandra_${index}@example.com`,
+            time: `2021-${Math.floor(Math.random() * 11)}-11T${Math.floor(Math.random() * 23)}:10:45.437Z`
+        })),
+    pagination: {
+        pageSize: 6,
+        current: 0
+    },
     className: '',
     tableLayoutFixed: false,
     borderCell: false,
