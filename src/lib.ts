@@ -1,5 +1,5 @@
 import "@arco-design/web-react/dist/css/arco.css";
-import { Registry } from "@sunmao-ui/runtime/lib/services/registry";
+import { Registry, SunmaoLib } from "@sunmao-ui/runtime";
 import { Button } from "./components/Button";
 import { Header, Content, Footer, Sider, Layout } from "./components/Layout";
 import { Image } from "./components/Image";
@@ -11,8 +11,8 @@ import { Icon } from "./components/Icon";
 import { Input } from "./components/Input";
 import { Divider } from "./components/Divider";
 import { Avatar } from "./components/Avatar";
-import { Mentions } from './components/Mentions';
-import { Progress } from './components/Progress';
+import { Mentions } from "./components/Mentions";
+import { Progress } from "./components/Progress";
 import { Badge } from "./components/Badge";
 import { Tooltip } from "./components/Tooltip";
 import { Popover } from "./components/Popover";
@@ -60,6 +60,12 @@ export const components: Component[] = [
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];
+
+export const ArcoDesignLib: SunmaoLib = {
+  components,
+  traits,
+  modules,
+};
 
 export function install(registry: Registry) {
   components.forEach((c) => registry.registerComponent(c));
