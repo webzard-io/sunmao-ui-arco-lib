@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const PaginationPropsSchema = Type.Object(BasePaginationPropsSchema);
 const PaginationStateSchema = Type.Object({
-  currentPage: Type.String(),
+  currentPage: Type.Number(),
 });
 
 const PaginationImpl: ComponentImpl<Static<typeof PaginationPropsSchema>> = (
