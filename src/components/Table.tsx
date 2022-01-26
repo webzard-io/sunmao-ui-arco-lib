@@ -8,10 +8,9 @@ import {
 import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
-import { FALLBACK_METADATA, getComponentProps } from "../../sunmao-helper";
-import { TablePropsSchema } from "../../generated/types/Table";
+import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
+import { TablePropsSchema } from "../generated/types/Table";
 import { useMemo, useRef, useState } from "react";
-import { exampleProperties } from "./spec";
 import { sortBy } from "lodash-es";
 import {
   LIST_ITEM_EXP,
@@ -22,7 +21,6 @@ import {
 const TableStateSchema = Type.Object({
   selectedRows: Type.Optional(Type.Array(Type.Any())),
   selectedItem: Type.Optional(Type.Any()),
-  allData: Type.Optional(Type.Any()),
 });
 
 type SortRule = {
@@ -30,6 +28,11 @@ type SortRule = {
   direction?: "ascend" | "descend";
 };
 
+type filterDropdownParam = {
+  filterKeys: string[];
+  setFilterKeys: (filterKeys: string[], callback?: () => void) => void;
+  confirm: () => void;
+};
 const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   const { app, mergeState, customStyle, services, data } = props;
 
@@ -48,11 +51,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   const [filterRule, setFilterRule] = useState();
 
   const filteredData = useMemo(() => {
-    console.log(
-      "%c===========usememo filterData=================",
-      "color:green"
-    );
-    let filteredData = data;
+    let filteredData = data || [];
     if (filterRule) {
       Object.keys(filterRule).forEach((colIdx) => {
         const value = filterRule[colIdx][0];
@@ -65,11 +64,6 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   }, [data, filterRule]);
 
   const sortedData = useMemo(() => {
-    console.log(
-      "%c===========usememo sortedData=================",
-      "color:#c10"
-    );
-
     if (!sortRule || !sortRule.direction) {
       return filteredData;
     }
@@ -77,8 +71,8 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
     const sorted = sortBy(filteredData, sortRule.field);
     return sortRule.direction === "ascend" ? sorted : sorted.reverse();
   }, [filteredData, sortRule]);
-  const { pageSize } = pagination;
 
+  const { pageSize } = pagination;
   const currentPageData = sortedData?.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
@@ -96,7 +90,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
         filterKeys,
         setFilterKeys,
         confirm,
-      }) => {
+      }: filterDropdownParam) => {
         return (
           <div className="arco-table-custom-filter">
             <Input.Search
@@ -114,12 +108,6 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
           </div>
         );
       };
-
-      // (column as any).onFilterDropdownVisibleChange = (visible) => {
-      //   if (visible) {
-      //     setTimeout(() => inputRef.current!.focus(), 150);
-      //   }
-      // };
     }
 
     column.render = (ceilValue: any, record: any, index: number) => {
@@ -134,7 +122,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
               services.apiService.send("uiMethod", {
                 componentId: handler.componentId,
                 name: handler.method.name,
-                parameters: record,
+                parameters: handler.method.parameters || {},
               });
             });
           };
@@ -179,24 +167,20 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   const handleChange = (
     pagination: PaginationProps,
     sorter: { field?: string; direction?: "descend" | "ascend" },
-    filter,
-    curData
+    filter: any
   ) => {
-    console.log("%c==============handlerchange==============", "color:green");
-
     const { current } = pagination;
     if (current !== currentPage) {
       setCurrentPage(current!);
       return;
     }
 
+    // TODO can be optimized
     setSortRule(sorter as SortRule);
 
     setFilterRule(filter);
   };
 
-  //   console.log(ref.current,data)
-  console.log("rerender", currentPageData, columns);
   return (
     <BaseTable
       className={cx(className, css(customStyle?.content))}
@@ -206,7 +190,6 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
         total: sortedData!.length,
         current: currentPage,
       }}
-      //   pagination={true}
       data={currentPageData}
       onChange={handleChange}
       rowSelection={{
@@ -226,6 +209,74 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
       }}
     />
   );
+};
+
+export const exampleProperties: Static<typeof TablePropsSchema> = {
+  columns: [
+    {
+      title: "Name",
+      dataIndex: "name",
+      sorter: true,
+      sortDirections: ["ascend"],
+      defaultSortOrder: "ascend",
+      type: "text",
+      filter: true,
+    },
+    {
+      title: "Salary",
+      dataIndex: "salary",
+      sorter: true,
+    },
+    {
+      title: "Time",
+      dataIndex: "time",
+      sorter: true,
+    },
+    {
+      title: "Link",
+      dataIndex: "link",
+      type: "link",
+      filter: true,
+    },
+    {
+      title: "CustomComponent",
+      dataIndex: "customComponent",
+      type: "module",
+      module: {
+        id: "clistItemName-{{$listItem.id}}",
+        handlers: [],
+        properties: [],
+        type: "core/v1/text",
+      },
+    },
+  ],
+  data: Array(200)
+    .fill("")
+    .map((_, index) => ({
+      key: index,
+      name: `${Math.random() > 0.5 ? "Kevin Sandra" : "xzdry"}${index}`,
+      link: `link${Math.random() > 0.5 ? "-A" : "-B"}`,
+      salary: Math.floor(Math.random() * 1000),
+      time: `2021-${Math.floor(Math.random() * 11)}-11T${Math.floor(
+        Math.random() * 23
+      )}:10:45.437Z`,
+    })),
+  pagination: {
+    pageSize: 6,
+    current: 0,
+  },
+  className: "",
+  tableLayoutFixed: false,
+  borderCell: false,
+  hover: true,
+  defaultExpandAllRows: false,
+  showHeader: true,
+  stripe: false,
+  size: "default",
+  pagePosition: "bottomCenter",
+  indentSize: 15,
+  virtualized: false,
+  rowSelectionType: "checkbox",
 };
 
 export const Table = implementRuntimeComponent({
