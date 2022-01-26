@@ -20,7 +20,7 @@ import {
 
 const TableStateSchema = Type.Object({
   selectedRows: Type.Array(Type.Any()),
-  selectedItem: Type.Optional(Type.Any()),
+  currentOperatedItem: Type.Optional(Type.Any()),
 });
 
 type SortRule = {
@@ -86,10 +86,6 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
     currentPage * pageSize
   );
 
-  const clearState = () => {
-    mergeState({ selectedRows: [] });
-    mergeState({ selectedItem: undefined });
-  };
   const inputRef = useRef(null);
 
   const columns = cProps.columns!.map((column) => {
@@ -209,12 +205,10 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
           setSelectedRowKeys(selectedRowKeys.map(Number));
         },
         onSelect: (selected, record, selectedRows) => {
-          if (!selected) {
-            clearState();
-            return;
-          }
+          selected
+            ? mergeState({ currentOperatedItem: record })
+            : mergeState({ currentOperatedItem: undefined });
           mergeState({ selectedRows });
-          mergeState({ selectedItem: record });
         },
       }}
     />
@@ -260,7 +254,7 @@ export const exampleProperties: Static<typeof TablePropsSchema> = {
       },
     },
   ],
-  data: Array(200)
+  data: Array(13)
     .fill("")
     .map((_, index) => ({
       key: index,
