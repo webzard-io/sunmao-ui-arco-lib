@@ -9,8 +9,8 @@ import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
-import { TablePropsSchema } from "../generated/types/Table";
-import { useMemo, useRef, useState } from "react";
+import { TablePropsSchema, ColumnSchema } from "../generated/types/Table";
+import { ReactNode, useMemo, useRef, useState } from "react";
 import { sortBy } from "lodash-es";
 import {
   LIST_ITEM_EXP,
@@ -19,7 +19,7 @@ import {
 } from "@sunmao-ui/runtime";
 
 const TableStateSchema = Type.Object({
-  selectedRows: Type.Optional(Type.Array(Type.Any())),
+  selectedRows: Type.Array(Type.Any()),
   selectedItem: Type.Optional(Type.Any()),
 });
 
@@ -28,16 +28,24 @@ type SortRule = {
   direction?: "ascend" | "descend";
 };
 
+type ColumnProperty = Static<typeof ColumnSchema> & {
+  filterDropdown?: ({
+    filterKeys,
+    setFilterKeys,
+    confirm,
+  }: filterDropdownParam) => ReactNode;
+  render?: (ceilValue: any, record: any, index: number) => ReactNode;
+};
+
 type filterDropdownParam = {
-  filterKeys: string[];
-  setFilterKeys: (filterKeys: string[], callback?: () => void) => void;
-  confirm: () => void;
+  filterKeys?: string[];
+  setFilterKeys?: (filterKeys: string[], callback?: Function) => void;
+  confirm?: Function;
 };
 const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   const { app, mergeState, customStyle, services, data } = props;
 
-  const { className, columns, pagination, ...cProps } =
-    getComponentProps(props);
+  const { className, pagination, ...cProps } = getComponentProps(props);
 
   const rowSelectionType: "checkbox" | "radio" | undefined =
     cProps.rowSelectionType === "default" ? undefined : cProps.rowSelectionType;
@@ -84,9 +92,10 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   };
   const inputRef = useRef(null);
 
-  for (const column of columns!) {
-    if (column.filter) {
-      (column as any).filterDropdown = ({
+  const columns = cProps.columns!.map((column) => {
+    const newColumn: ColumnProperty = { ...column };
+    if (newColumn.filter) {
+      newColumn.filterDropdown = ({
         filterKeys,
         setFilterKeys,
         confirm,
@@ -96,13 +105,13 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
             <Input.Search
               ref={inputRef}
               searchButton
-              placeholder="Please enter name"
-              value={filterKeys[0] || ""}
+              placeholder="Please input and enter"
+              value={filterKeys?.[0] || ""}
               onChange={(value) => {
-                setFilterKeys(value ? [value] : []);
+                setFilterKeys && setFilterKeys(value ? [value] : []);
               }}
               onSearch={() => {
-                confirm();
+                confirm && confirm();
               }}
             />
           </div>
@@ -110,15 +119,15 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
       };
     }
 
-    column.render = (ceilValue: any, record: any, index: number) => {
-      const value = record[column.dataIndex];
+    newColumn.render = (ceilValue: any, record: any, index: number) => {
+      const value = record[newColumn.dataIndex];
 
       let colItem;
 
-      switch (column.type) {
+      switch (newColumn.type) {
         case "button":
           const handleClick = (record: any) => {
-            column.btnCfg?.handlers.forEach((handler) => {
+            newColumn.btnCfg?.handlers.forEach((handler) => {
               services.apiService.send("uiMethod", {
                 componentId: handler.componentId,
                 name: handler.method.name,
@@ -132,7 +141,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
                 handleClick(record);
               }}
             >
-              {column.btnCfg?.text}
+              {newColumn.btnCfg?.text}
             </Button>
           );
           break;
@@ -148,11 +157,11 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
             <ModuleRenderer
               app={app}
               evalScope={evalScope}
-              handlers={column.module?.handlers || []}
-              id={column.module?.id || ""}
-              properties={column.module?.properties || {}}
+              handlers={newColumn.module?.handlers || []}
+              id={newColumn.module?.id || ""}
+              properties={newColumn.module?.properties || {}}
               services={services}
-              type={column.module?.type || ""}
+              type={newColumn.module?.type || ""}
             />
           );
           break;
@@ -162,7 +171,8 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
       }
       return colItem;
     };
-  }
+    return newColumn;
+  });
 
   const handleChange = (
     pagination: PaginationProps,
@@ -290,11 +300,7 @@ export const Table = implementRuntimeComponent({
   spec: {
     properties: TablePropsSchema,
     state: TableStateSchema,
-    methods: {
-      print: Type.String(),
-      deleteSelected: Type.String(),
-      deleteRows: Type.String(),
-    },
+    methods: {},
     slots: [],
     styleSlots: ["content"],
     events: [],

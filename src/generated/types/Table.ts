@@ -18,7 +18,6 @@ export const ColumnSchema = Type.Object({
   filter:Type.Optional(Type.Boolean()),
   sortDirections: Type.Optional(Type.Array(StringUnion(["descend" ,"ascend"]))),
   defaultSortOrder: Type.Optional(StringUnion(["descend" ,"ascend"])),
-  render: Type.Optional(Type.Any()),
   type: Type.Optional(Type.String()),
   btnCfg: Type.Optional(Type.Object({
     text: Type.String(),
