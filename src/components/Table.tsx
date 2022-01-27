@@ -291,7 +291,7 @@ export const Table = implementRuntimeComponent({
   metadata: {
     ...FALLBACK_METADATA,
     exampleProperties,
-    name: "Table",
+    name: "table",
     displayName: "Table",
   },
   spec: {
