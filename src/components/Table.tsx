@@ -59,7 +59,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   const [filterRule, setFilterRule] = useState();
 
   const filteredData = useMemo(() => {
-    let filteredData = data || [];
+    let filteredData = Array.isArray(data) ? data : [];
     if (filterRule) {
       Object.keys(filterRule).forEach((colIdx) => {
         const value = filterRule[colIdx][0];
@@ -211,7 +211,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
           mergeState({ selectedRows });
         },
         onSelectAll(selected, selectedRows) {
-          mergeState({selectedRows})
+          mergeState({ selectedRows });
         },
       }}
     />
