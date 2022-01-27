@@ -210,6 +210,9 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
             : mergeState({ currentOperatedItem: undefined });
           mergeState({ selectedRows });
         },
+        onSelectAll(selected, selectedRows) {
+          mergeState({selectedRows})
+        },
       }}
     />
   );
