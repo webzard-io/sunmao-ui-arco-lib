@@ -1,5 +1,5 @@
 import "@arco-design/web-react/dist/css/arco.css";
-import { Registry } from "@sunmao-ui/runtime/lib/services/registry";
+import { Registry, SunmaoLib } from "@sunmao-ui/runtime";
 import { Button } from "./components/Button";
 import { Header, Content, Footer, Sider, Layout } from "./components/Layout";
 import { Image } from "./components/Image";
@@ -11,8 +11,8 @@ import { Icon } from "./components/Icon";
 import { Input } from "./components/Input";
 import { Divider } from "./components/Divider";
 import { Avatar } from "./components/Avatar";
-import { Mentions } from './components/Mentions';
-import { Progress } from './components/Progress';
+import { Mentions } from "./components/Mentions";
+import { Progress } from "./components/Progress";
 import { Badge } from "./components/Badge";
 import { Tooltip } from "./components/Tooltip";
 import { Popover } from "./components/Popover";
@@ -21,14 +21,17 @@ import { Cascader } from "./components/Cascader";
 import { Skeleton } from "./components/Skeleton";
 import { Timeline } from "./components/Timeline";
 import { TreeSelect } from "./components/TreeSelect";
+import { Checkbox } from './components/Checkbox';
 import { Modal } from "./components/Modal";
 import { Radio } from './components/Radio';
+import { Table } from "./components/Table";
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
 type Module = Parameters<Registry["registerModule"]>[0];
 
 export const components: Component[] = [
+  Table,
   TreeSelect,
   Modal,
   Button,
@@ -56,10 +59,17 @@ export const components: Component[] = [
   Cascader,
   Skeleton,
   Timeline,
-  Radio
+  Radio,
+  Checkbox
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];
+
+export const ArcoDesignLib: SunmaoLib = {
+  components,
+  traits,
+  modules,
+};
 
 export function install(registry: Registry) {
   components.forEach((c) => registry.registerComponent(c));

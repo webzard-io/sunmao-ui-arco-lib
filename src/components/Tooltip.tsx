@@ -5,6 +5,7 @@ import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { TooltipPropsSchema as BaseTooltipPropsSchema } from "../generated/types/Tooltip";
 import { useEffect, useState } from "react";
+import { isArray } from "lodash-es";
 
 const TooltipPropsSchema = Type.Object(BaseTooltipPropsSchema);
 const TooltipStateSchema = Type.Object({
@@ -31,15 +32,16 @@ const TooltipImpl: ComponentImpl<Static<typeof TooltipPropsSchema>> = (
         _setPopupVisible(!!visible);
       },
     });
-  }, []);
+  }, [subscribeMethods]);
+
   useEffect(() => {
     mergeState({ visible: popupVisible });
-  }, [popupVisible]);
+  }, [mergeState, popupVisible]);
 
   // two components in the array will be wrapped by span respectively
   // and arco does not support `array.length===1` think it is a bug
   // TODO only support arco componets slot now
-  const content = slotsElements.content && slotsElements.content[0];
+  const content = isArray(slotsElements.content) ? slotsElements.content[0] : slotsElements.content;
 
   return controlled ? (
     <BaseTooltip
@@ -77,7 +79,7 @@ const options = {
   version: "arco/v1",
   metadata: {
     ...FALLBACK_METADATA,
-    name: "Tooltip",
+    name: "tooltip",
     displayName: "Tooltip",
     exampleProperties,
   },
@@ -86,7 +88,7 @@ const options = {
     state: TooltipStateSchema,
     methods: {
       setPopupVisible: Type.String(),
-    },
+    } as Record<string, any>,
     slots: ["content"],
     styleSlots: ["content"],
     events: [],
