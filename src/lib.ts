@@ -22,6 +22,7 @@ import { Skeleton } from "./components/Skeleton";
 import { Timeline } from "./components/Timeline";
 import { TreeSelect } from "./components/TreeSelect";
 import { Modal } from "./components/Modal";
+import { Radio } from './components/Radio';
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
@@ -54,7 +55,8 @@ export const components: Component[] = [
   CollapseItem,
   Cascader,
   Skeleton,
-  Timeline
+  Timeline,
+  Radio
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];
