@@ -7,29 +7,25 @@ import { ModalPropsSchema as BaseModalPropsSchema } from "../generated/types/Mod
 import { useEffect, useState } from "react";
 
 const ModalPropsSchema = Type.Object(BaseModalPropsSchema);
-const ModalStateSchema = Type.Object({
-  visible: Type.Boolean(),
-});
+const ModalStateSchema = Type.Object({});
 
 const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
   const {
     subscribeMethods,
-    mergeState,
     slotsElements,
     customStyle,
     callbackMap,
   } = props;
   const { title, ...cProps } = getComponentProps(props);
-  const [visible, _setVisible] = useState(true);
-
-  useEffect(() => {
-    mergeState({ visible });
-  }, [visible, mergeState]);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     subscribeMethods({
-      setVisible({ visible }) {
-        _setVisible(!!visible);
+      openModal() {
+        setVisible(true);
+      },
+      closeModal() {
+        setVisible(false);
       },
     });
   }, [subscribeMethods]);
@@ -44,11 +40,11 @@ const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
         </>
       }
       onCancel={() => {
-        _setVisible(false);
+        setVisible(false);
         callbackMap?.onCancel();
       }}
       onOk={() => {
-        _setVisible(false);
+        setVisible(false);
         callbackMap?.onOk();
       }}
       afterClose={callbackMap?.afterClose}
@@ -84,9 +80,8 @@ export const Modal = implementRuntimeComponent({
     properties: ModalPropsSchema,
     state: ModalStateSchema,
     methods: {
-      setVisible: Type.Object({
-        visible: Type.String(),
-      }),
+      openModal: Type.String(),
+      closeModal: Type.String(),
     } as Record<string, any>,
     slots: ["title", "content", "footer"],
     styleSlots: ["content"],
