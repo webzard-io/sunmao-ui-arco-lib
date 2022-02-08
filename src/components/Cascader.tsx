@@ -1,6 +1,6 @@
 import { Cascader as BaseCascader } from "@arco-design/web-react";
 import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import {
@@ -65,10 +65,13 @@ const convertArrToTree = (arr: Array<Array<string>>) => {
 const CascaderImpl: ComponentImpl<Static<typeof CascaderPropsSchema>> = (
   props
 ) => {
-  const { multiple, placeholder, ...cProps } = getComponentProps(props);
-  const { mergeState, slotsElements, customStyle, className, options } = props;
+  const { callbackMap, multiple, placeholder, ...cProps } =
+    getComponentProps(props);
+  const { mergeState, slotsElements, customStyle, options } = props;
 
-  const content = isArray(slotsElements.content) ? slotsElements.content[0] : slotsElements.content;
+  const content = isArray(slotsElements.content)
+    ? slotsElements.content[0]
+    : slotsElements.content;
 
   const mode: "multiple" | undefined = multiple ? "multiple" : undefined;
 
@@ -92,11 +95,12 @@ const CascaderImpl: ComponentImpl<Static<typeof CascaderPropsSchema>> = (
 
   const onChange = (value: (string | string[])[]) => {
     _setValue(value);
+    callbackMap?.onChange();
   };
 
   return (
     <BaseCascader
-      className={cx(className, css(customStyle?.content))}
+      className={css(customStyle?.content)}
       {...cProps}
       mode={mode}
       onChange={onChange}
@@ -120,24 +124,20 @@ const CascaderExampleOptions = [
   ["jiangsu", "nanjing", "qinhuai", "yuhuatai", "tiexinqiao"],
 ];
 const exampleProperties: Static<typeof CascaderPropsSchema> = {
-  className: "",
   defaultValue: ["beijing", "haidian", "smartx"],
   expandTrigger: "click",
   changeOnSelect: false,
-  unmountOnExit: true,
   multiple: false,
-  defaultPopupVisible: false,
   placeholder: "Please select ...",
   bordered: true,
   size: "default",
-  showSearch: false,
+  showSearch: true,
   disabled: false,
   error: false,
   loading: false,
   allowClear: true,
   allowCreate: true,
   maxTagCount: 99,
-  animation: true,
   options: CascaderExampleOptions,
 };
 
@@ -155,7 +155,7 @@ const options = {
     methods: {},
     slots: ["content"],
     styleSlots: ["content"],
-    events: [],
+    events: ["onChange"],
   },
 };
 

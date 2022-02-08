@@ -129,7 +129,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
 
       switch (newColumn.type) {
         case "button":
-          const handleClick = (record: any) => {
+          const handleClick = () => {
             newColumn.btnCfg?.handlers.forEach((handler) => {
               services.apiService.send("uiMethod", {
                 componentId: handler.componentId,
@@ -141,7 +141,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
           colItem = (
             <Button
               onClick={() => {
-                handleClick(record);
+                handleClick();
               }}
             >
               {newColumn.btnCfg?.text}
@@ -208,7 +208,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
       rowSelection={{
         type: rowSelectionType,
         selectedRowKeys,
-        onChange(selectedRowKeys, selectedRows) {
+        onChange(selectedRowKeys) {
           setSelectedRowKeys(selectedRowKeys as string[]);
         },
         onSelect: (selected, record, selectedRows) => {

@@ -15,7 +15,7 @@ const PaginationImpl: ComponentImpl<Static<typeof PaginationPropsSchema>> = (
   props
 ) => {
   const { defaultCurrent, ...cProps } = getComponentProps(props);
-  const { customStyle, className, mergeState } = props;
+  const { customStyle, mergeState, callbackMap } = props;
 
   const [current, setCurrent] = useState<number>(defaultCurrent || 0);
 
@@ -29,11 +29,12 @@ const PaginationImpl: ComponentImpl<Static<typeof PaginationPropsSchema>> = (
 
   const handleChange = (pageNum: number) => {
     setCurrent(pageNum);
+    callbackMap?.onChange();
   };
 
   return (
     <BasePagination
-      className={cx(className, css(customStyle?.content))}
+      className={cx(css(customStyle?.content))}
       {...cProps}
       current={current}
       onChange={handleChange}
@@ -42,7 +43,6 @@ const PaginationImpl: ComponentImpl<Static<typeof PaginationPropsSchema>> = (
 };
 
 const exampleProperties: Static<typeof PaginationPropsSchema> = {
-  className: "",
   pageSize: 10,
   total: 300,
   defaultCurrent: 3,
@@ -70,7 +70,7 @@ const options = {
     methods: {},
     slots: [],
     styleSlots: ["content"],
-    events: [],
+    events: ["onChange"],
   },
 };
 

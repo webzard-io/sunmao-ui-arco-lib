@@ -1,6 +1,6 @@
 import { Modal as BaseModal } from "@arco-design/web-react";
 import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { ModalPropsSchema as BaseModalPropsSchema } from "../generated/types/Modal";
@@ -19,7 +19,7 @@ const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
     customStyle,
     callbackMap,
   } = props;
-  const { className, title, ...cProps } = getComponentProps(props);
+  const { title, ...cProps } = getComponentProps(props);
   const [visible, _setVisible] = useState(true);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
       afterClose={callbackMap?.afterClose}
       afterOpen={callbackMap?.afterOpen}
       footer={slotsElements.footer}
-      className={cx(className, css(customStyle?.content))}
+      className={css(customStyle?.content)}
       {...cProps}
     >
       {slotsElements.content}
@@ -63,7 +63,6 @@ const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
 };
 
 const exampleProperties: Static<typeof ModalPropsSchema> = {
-  className: "",
   title: "Modal title",
   mask: true,
   simple: false,
