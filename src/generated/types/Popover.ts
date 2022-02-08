@@ -9,9 +9,6 @@ export const PopoverPropsSchema = {
     position: StringUnion(['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb']),
     mini: Type.Boolean(),
     unmountOnExit: Type.Boolean(),
-    defaultPopupVisible: Type.Boolean(),
-    popupHoverStay: Type.Boolean(),
-    blurToHide: Type.Boolean(),
     controlled: Type.Boolean(),
     trigger: StringUnion(["click", "hover", "focus", "contextMenu"])
 }
