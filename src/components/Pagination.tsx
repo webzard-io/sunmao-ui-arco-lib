@@ -26,7 +26,7 @@ const PaginationImpl: ComponentImpl<Static<typeof PaginationPropsSchema>> = (
   const handleChange = (pageNum: number) => {
     setCurrent(pageNum);
     mergeState({ currentPage: current });
-    callbackMap?.onChange();
+    callbackMap?.onChange?.();
   };
 
   return (
