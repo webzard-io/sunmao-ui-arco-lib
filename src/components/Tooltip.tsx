@@ -4,8 +4,8 @@ import { css } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { TooltipPropsSchema as BaseTooltipPropsSchema } from "../generated/types/Tooltip";
-import { useEffect, useState } from "react";
 import { isArray } from "lodash-es";
+import { useState, useEffect } from "react";
 
 const TooltipPropsSchema = Type.Object(BaseTooltipPropsSchema);
 const TooltipStateSchema = Type.Object({});
@@ -55,7 +55,6 @@ const exampleProperties: Static<typeof TooltipPropsSchema> = {
   position: "bottom",
   mini: false,
   unmountOnExit: true,
-  defaultPopupVisible: false,
   disabled: false,
   content: "This is tooltip",
   // TODO There are some problems with hover mode that need to be verified later

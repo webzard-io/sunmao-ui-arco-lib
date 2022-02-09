@@ -202,6 +202,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
       pagination={{
         total: sortedData!.length,
         current: currentPage,
+        pageSize
       }}
       data={currentPageData}
       onChange={handleChange}

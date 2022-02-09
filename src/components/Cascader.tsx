@@ -95,7 +95,7 @@ const CascaderImpl: ComponentImpl<Static<typeof CascaderPropsSchema>> = (
 
   const onChange = (value: (string | string[])[]) => {
     _setValue(value);
-    callbackMap?.onChange();
+    callbackMap?.onChange?.();
   };
 
   return (

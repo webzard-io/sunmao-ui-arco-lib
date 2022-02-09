@@ -4,7 +4,7 @@ import { css, cx } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { PaginationPropsSchema as BasePaginationPropsSchema } from "../generated/types/Pagination";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const PaginationPropsSchema = Type.Object(BasePaginationPropsSchema);
 const PaginationStateSchema = Type.Object({
@@ -23,12 +23,9 @@ const PaginationImpl: ComponentImpl<Static<typeof PaginationPropsSchema>> = (
     Reflect.deleteProperty(cProps, "pageSize");
   }
 
-  useEffect(() => {
-    mergeState({ currentPage: current });
-  }, [current, mergeState]);
-
   const handleChange = (pageNum: number) => {
     setCurrent(pageNum);
+    mergeState({ currentPage: current });
     callbackMap?.onChange?.();
   };
 
