@@ -33,7 +33,7 @@ const CollapseImpl: ComponentImpl<Static<typeof CollapsePropsSchema>> = (
 
   const onChange = (currentOperateKey: string, activeKey: string[]) => {
     setActiveKey(activeKey);
-    callbackMap?.onChange();
+    callbackMap?.onChange?.();
   };
 
   return (

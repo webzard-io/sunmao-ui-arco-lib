@@ -28,7 +28,7 @@ const TreeSelectImpl: ComponentImpl<Static<typeof TreeSelectPropsSchema>> = (
 
   const handleChange = (value: string[]) => {
     setSelectedOptions(value);
-    callbackMap?.onChange();
+    callbackMap?.onChange?.();
   };
 
   const filterTreeNode = (inputText: string, treeNode: any) => {

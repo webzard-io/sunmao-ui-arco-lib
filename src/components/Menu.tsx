@@ -37,7 +37,7 @@ const MenuImpl: ComponentImpl<Static<typeof MenuPropsSchema>> = (props) => {
       className={css(customStyle?.content)}
       onClickMenuItem={(key) => {
         setActiveKey(key);
-        callbackMap?.onClick();
+        callbackMap?.onClick?.();
       }}
       {...cProps}
     >

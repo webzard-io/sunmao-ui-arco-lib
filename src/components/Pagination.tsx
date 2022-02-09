@@ -29,7 +29,7 @@ const PaginationImpl: ComponentImpl<Static<typeof PaginationPropsSchema>> = (
 
   const handleChange = (pageNum: number) => {
     setCurrent(pageNum);
-    callbackMap?.onChange();
+    callbackMap?.onChange?.();
   };
 
   return (

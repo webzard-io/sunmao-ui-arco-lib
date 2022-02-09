@@ -25,16 +25,16 @@ const MentionsImpl: ComponentImpl<Static<typeof MentionsPropsSchema>> = (
 
   const onChange = (value: string) => {
     setValue(value);
-    callbackMap?.onChange();
+    callbackMap?.onChange?.();
   };
 
   const onClear = () => {
-    callbackMap?.onClear();
+    callbackMap?.onClear?.();
   };
 
-  const onPressEnter = (e: any) => {
+  const onPressEnter = () => {
     // TODO complete onPressEnter methods
-    callbackMap?.onPressEnter();
+    callbackMap?.onPressEnter?.();
   };
 
   return (

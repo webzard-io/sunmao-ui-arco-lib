@@ -41,11 +41,11 @@ const ModalImpl: ComponentImpl<Static<typeof ModalPropsSchema>> = (props) => {
       }
       onCancel={() => {
         setVisible(false);
-        callbackMap?.onCancel();
+        callbackMap?.onCancel?.();
       }}
       onOk={() => {
         setVisible(false);
-        callbackMap?.onOk();
+        callbackMap?.onOk?.();
       }}
       afterClose={callbackMap?.afterClose}
       afterOpen={callbackMap?.afterOpen}
