@@ -5,7 +5,7 @@ import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { MenuPropsSchema as BaseMenuPropsSchema } from "../generated/types/Menu";
 import { useEffect, useState } from "react";
-import { Category } from "src/constants/category";
+import { Category } from "../constants/category";
 
 const MenuPropsSchema = Type.Object({
   ...BaseMenuPropsSchema,
