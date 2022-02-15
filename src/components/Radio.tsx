@@ -83,7 +83,7 @@ const options = {
       setCheckedValue: Type.Object({
         value: Type.String(),
       }),
-    },
+    } as Record<string, any>,
     slots: [],
     styleSlots: ["group"],
     events: ["onChange"],
