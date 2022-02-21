@@ -29,6 +29,7 @@ import { Pagination } from "./components/Pagination";
 import { Steps } from "./components/Steps";
 import { Alert } from './components/Alert';
 import { Link } from "./components/Link";
+import { Switch } from "./components/Switch";
 
 type Component = Parameters<Registry["registerComponent"]>[0];
 type Trait = Parameters<Registry["registerTrait"]>[0];
@@ -68,7 +69,8 @@ export const components: Component[] = [
   Radio,
   Checkbox,
   Alert,
-  Link
+  Link,
+  Switch
 ];
 export const traits: Trait[] = [];
 export const modules: Module[] = [];
