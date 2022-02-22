@@ -25,11 +25,11 @@ export const SkeletonImagePropsSchema = {
 export const SkeletonPropsSchema = {
   animation: Type.Boolean({
     title:'Animation',
-    category:Category.Behavior
+    category:Category.Basic
   }),
   loading: Type.Boolean({
     title:'Loading',
-    category:Category.Behavior
+    category:Category.Basic
   }),
   // TODO remove union type
   image: Type.Union([Type.Boolean(), Type.Object(SkeletonImagePropsSchema)],{

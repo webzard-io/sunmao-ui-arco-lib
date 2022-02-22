@@ -22,7 +22,7 @@ export const PaginationPropsSchema = {
   }),
   hideOnSinglePage: Type.Boolean({
     title:'Hide On Single Page',
-    category:Category.Behavior
+    category:Category.Basic
   }),
   size: StringUnion(['mini', 'small', 'default', 'large'], {
     title:'Size',
@@ -30,15 +30,15 @@ export const PaginationPropsSchema = {
   }),
   sizeCanChange: Type.Boolean({
     title:'Size Can Change',
-    category:Category.Behavior,
+    category:Category.Basic,
   }),
   simple: Type.Boolean({
     title:'Simple',
-    category: Category.Behavior
+    category: Category.Basic
   }),
   showJumper: Type.Boolean({
     title:'Show Jumper',
-    category:Category.Behavior,
+    category:Category.Basic,
     description: 'Whether to display quick jump'
   }),
 };
