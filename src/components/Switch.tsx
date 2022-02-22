@@ -14,7 +14,7 @@ const SwitchStateSchema = Type.Object({
 });
 
 const SwitchImpl: ComponentImpl<Static<typeof SwitchPropsSchema>> = (props) => {
-  const { customStyle, mergeState } = props;
+  const {elementRef, customStyle, mergeState } = props;
   const { defaultChecked, ...cProps } = getComponentProps(props);
   const [value, setValue] = useState<boolean>(defaultChecked);
 
@@ -30,6 +30,7 @@ const SwitchImpl: ComponentImpl<Static<typeof SwitchPropsSchema>> = (props) => {
 
   return (
     <BaseSwitch
+      ref={elementRef}
       className={css(customStyle?.content)}
       checked={value}
       {...cProps}
