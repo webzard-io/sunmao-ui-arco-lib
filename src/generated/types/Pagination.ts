@@ -5,34 +5,40 @@ import { Category } from '../../constants/category'
 
 export const PaginationPropsSchema = {
   pageSize: Type.Number({
-    category:Category.General,
+    title:'Page Size',
+    category:Category.Basic,
   }),
   total: Type.Number({
-    category:Category.General,
+    title:'Total',
+    category:Category.Basic,
   }),
   defaultCurrent: Type.Number({
-    category:Category.General,
-  }),
-  defaultPageSize: Type.Number({
-    category:Category.General,
+    title:'Current Page',
+    category:Category.Basic,
   }),
   disabled: Type.Boolean({
-    category:Category.General,
+    title:'Disabled',
+    category:Category.Basic,
   }),
   hideOnSinglePage: Type.Boolean({
-    category:Category.Style
+    title:'Hide On Single Page',
+    category:Category.Behavior
   }),
   size: StringUnion(['mini', 'small', 'default', 'large'], {
+    title:'Size',
     category: Category.Style
   }),
   sizeCanChange: Type.Boolean({
-    category:Category.General,
+    title:'Size Can Change',
+    category:Category.Behavior,
   }),
   simple: Type.Boolean({
-    category: Category.Style
+    title:'Simple',
+    category: Category.Behavior
   }),
   showJumper: Type.Boolean({
-    category:Category.General,
+    title:'Show Jumper',
+    category:Category.Behavior,
     description: 'Whether to display quick jump'
   }),
 };

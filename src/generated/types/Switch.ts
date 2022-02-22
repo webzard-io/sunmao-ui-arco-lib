@@ -22,6 +22,6 @@ export const SwitchPropsSchema = {
     }),
     loading:Type.Boolean({
         title:'Loading',
-        category:Category.Style,
+        category:Category.Basic,
     }),
 }
