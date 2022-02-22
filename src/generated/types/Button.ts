@@ -26,15 +26,15 @@ export const ButtonPropsSchema = {
   }),
   disabled: Type.Boolean({
     title:'Disabled',
-    category:Category.Behavior
+    category:Category.Basic
   }),
   loading: Type.Boolean({
     title:'Loading',
-    category:Category.Behavior
+    category:Category.Basic
   }),
   long: Type.Boolean({
     title:'Long',
     description:'Whether the width of the button should adapt to the container',
-    category: Category.Behavior
+    category: Category.Basic
   })
 };

@@ -14,8 +14,9 @@ const SelectStateSchema = Type.Object({
 });
 
 const SelectImpl: ComponentImpl<Static<typeof SelectPropsSchema>> = (props) => {
-  const { customStyle, callbackMap, mergeState, defaultValue = "" } = props;
-  const { options = [], ...cProps } = getComponentProps(props);
+  const { customStyle, callbackMap, mergeState } = props;
+  const { defaultValue, options = [], ...cProps } = getComponentProps(props);
+
   const [value, setValue] = useState<string>(defaultValue);
   useEffect(() => {
     mergeState({
@@ -32,6 +33,7 @@ const SelectImpl: ComponentImpl<Static<typeof SelectPropsSchema>> = (props) => {
       }}
       value={value}
       {...cProps}
+      mode={cProps.multiple ? "multiple" : undefined}
     >
       {options.map((o) => (
         <BaseSelect.Option key={o.value} value={o.value} disabled={o.disabled}>
@@ -44,26 +46,20 @@ const SelectImpl: ComponentImpl<Static<typeof SelectPropsSchema>> = (props) => {
 
 const exampleProperties: Static<typeof SelectPropsSchema> = {
   allowClear: false,
+  multiple: false,
   allowCreate: false,
-  animation: false,
-  bordered: false,
-  defaultActiveFirstOption: false,
-  defaultValue: "",
+  bordered: true,
+  defaultValue: "smartx",
   disabled: false,
-  error: false,
-  inputValue: "",
   labelInValue: false,
   loading: false,
-  mode: "multiple",
   options: [
-    { value: "smartx", text: "smartx" },
-    { value: "baidu", text: "baidu" },
-    { value: "tencent", text: "tencent" },
+    { value: "smartx", text: "smartx", disabled: false },
+    { value: "baidu", text: "baidu", disabled: false },
+    { value: "tencent", text: "tencent", disabled: true },
   ],
-  placeholder: "",
-  popupVisible: false,
+  placeholder: "Please select",
   size: "default",
-  unmountOnExit: false,
 };
 
 export const Select = implementRuntimeComponent({
@@ -75,7 +71,7 @@ export const Select = implementRuntimeComponent({
     exampleProperties,
     annotations: {
       category: "Input",
-    }
+    },
   },
   spec: {
     properties: SelectPropsSchema,

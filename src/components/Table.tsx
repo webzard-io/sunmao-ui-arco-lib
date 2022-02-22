@@ -61,6 +61,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
   const [filterRule, setFilterRule] = useState();
 
   const filteredData = useMemo(() => {
+
     let filteredData = Array.isArray(data) ? data : [];
     if (filterRule) {
       Object.keys(filterRule).forEach((colIdx) => {
@@ -204,6 +205,7 @@ const TableImpl: ComponentImpl<Static<typeof TablePropsSchema>> = (props) => {
         total: sortedData!.length,
         current: currentPage,
         pageSize,
+        hideOnSinglePage:true
       }}
       data={currentPageData}
       onChange={handleChange}
@@ -231,7 +233,7 @@ export const exampleProperties: Static<typeof TablePropsSchema> = {
       title: "Name",
       dataIndex: "name",
       sorter: true,
-      sortDirections: ["ascend"],
+      sortDirections:['ascend','descend'],
       defaultSortOrder: "ascend",
       type: "text",
       filter: true,
