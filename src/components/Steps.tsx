@@ -18,13 +18,20 @@ const StepsImpl: ComponentImpl<Static<typeof StepsPropsSchema>> = (props) => {
   const { items, ...cProps } = getComponentProps(props);
   const { customStyle, slotsElements } = props;
 
+  const labelPlacement =
+    cProps.direction === "horizontal" ? "vertical" : "horizontal";
+
   return (
-    <BaseSteps className={css(customStyle?.content)} {...cProps}>
+    <BaseSteps
+      className={css(customStyle?.content)}
+      {...cProps}
+      labelPlacement={labelPlacement}
+    >
       {items &&
         items.map((stepItem: StepItem, idx: number) => {
           return (
             <BaseSteps.Step
-              icon={isArray(slotsElements.icons) && slotsElements.icons[idx]}
+              icon={slotsElements.icons}
               key={idx}
               title={stepItem.title}
               description={stepItem.description}
@@ -39,13 +46,12 @@ const exampleProperties: Static<typeof StepsPropsSchema> = {
   type: "default",
   size: "default",
   direction: "horizontal",
-  labelPlacement: "vertical",
   status: "finish",
   current: 2,
   lineless: false,
   items: [
     { title: "Succeeded", description: "This is a description" },
-    { title: "Processing",description:'' },
+    { title: "Processing", description: "" },
     { title: "Pending", description: "This is a description" },
   ],
 };
@@ -59,7 +65,7 @@ const options = {
     exampleProperties,
     annotations: {
       category: "Display",
-    }
+    },
   },
   spec: {
     properties: StepsPropsSchema,
