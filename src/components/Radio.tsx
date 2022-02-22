@@ -14,8 +14,9 @@ const RadioStateSchema = Type.Object({
 });
 
 const RadioImpl: ComponentImpl<Static<typeof RadioPropsSchema>> = (props) => {
-  const { customStyle, callbackMap, mergeState, subscribeMethods } = props;
-  const { defaultCheckedValue, ...cProps } = getComponentProps(props);
+  const { customStyle, callbackMap, mergeState, subscribeMethods } =
+    props;
+  const { defaultCheckedValue, elementRef, ...cProps } = getComponentProps(props);
   const [checkedValue, setCheckedValue] = useState<string>("");
   const [isInit, setIsInit] = useState(false);
 
@@ -45,12 +46,14 @@ const RadioImpl: ComponentImpl<Static<typeof RadioPropsSchema>> = (props) => {
   }, [mergeState, subscribeMethods]);
 
   return (
-    <BaseRadio.Group
-      {...cProps}
-      className={css(customStyle?.group)}
-      value={checkedValue}
-      onChange={onChange}
-    ></BaseRadio.Group>
+    <div ref={elementRef}>
+      <BaseRadio.Group
+        {...cProps}
+        className={css(customStyle?.group)}
+        value={checkedValue}
+        onChange={onChange}
+      />
+    </div>
   );
 };
 

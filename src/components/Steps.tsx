@@ -7,7 +7,6 @@ import {
   StepsPropsSchema as BaseStepsPropsSchema,
   StepItemSchema,
 } from "../generated/types/Steps";
-import { isArray } from "lodash-es";
 
 const StepsPropsSchema = Type.Object(BaseStepsPropsSchema);
 const StepsStateSchema = Type.Object({});
@@ -16,7 +15,7 @@ type StepItem = Static<typeof StepItemSchema>;
 
 const StepsImpl: ComponentImpl<Static<typeof StepsPropsSchema>> = (props) => {
   const { items, ...cProps } = getComponentProps(props);
-  const { customStyle, slotsElements } = props;
+  const { elementRef, customStyle, slotsElements } = props;
 
   const labelPlacement =
     cProps.direction === "horizontal" ? "vertical" : "horizontal";
@@ -25,6 +24,7 @@ const StepsImpl: ComponentImpl<Static<typeof StepsPropsSchema>> = (props) => {
     <BaseSteps
       className={css(customStyle?.content)}
       {...cProps}
+      ref={elementRef}
       labelPlacement={labelPlacement}
     >
       {items &&

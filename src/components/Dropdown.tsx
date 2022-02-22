@@ -18,7 +18,7 @@ const DropdownStateSchema = Type.Object({
 const DropdownImpl: ComponentImpl<Static<typeof DropdownPropsSchema>> = (
   props
 ) => {
-  const { slotsElements, callbackMap, mergeState } = props;
+  const { elementRef, slotsElements, callbackMap, mergeState } = props;
   const cProps = getComponentProps(props);
   const { list, dropdownType, ...restProps } = cProps;
   const typeMap = {
@@ -57,7 +57,7 @@ const DropdownImpl: ComponentImpl<Static<typeof DropdownPropsSchema>> = (
       onClick={callbackMap?.onButtonClick}
       unmountOnExit={false}
     >
-      {slotsElements.trigger || <Button>Click</Button>}
+      <div ref={elementRef}>{slotsElements.trigger||<Button>Click</Button>}</div>
     </Dropdown>
   );
 };

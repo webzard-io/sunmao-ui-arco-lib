@@ -5,6 +5,8 @@ import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { SelectPropsSchema as BaseSelectPropsSchema } from "../generated/types/Select";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
+import { SelectHandle } from "@arco-design/web-react/es/Select/interface";
 
 const SelectPropsSchema = Type.Object({
   ...BaseSelectPropsSchema,
@@ -14,18 +16,31 @@ const SelectStateSchema = Type.Object({
 });
 
 const SelectImpl: ComponentImpl<Static<typeof SelectPropsSchema>> = (props) => {
-  const { customStyle, callbackMap, mergeState } = props;
-  const { defaultValue, options = [], ...cProps } = getComponentProps(props);
-
+  const {
+    getElement,
+    customStyle,
+    callbackMap,
+    mergeState,
+    defaultValue = "",
+  } = props;
+  const { options = [], ...cProps } = getComponentProps(props);
   const [value, setValue] = useState<string>(defaultValue);
+  const ref = useRef<SelectHandle | null>(null);
   useEffect(() => {
     mergeState({
       value,
     });
-  }, [value]);
+  }, [mergeState, value]);
+  useEffect(() => {
+    const ele = ref.current?.dom;
+    if (getElement && ele) {
+      getElement(ele);
+    }
+  }, [getElement, ref]);
 
   return (
     <BaseSelect
+      ref={ref}
       className={css(customStyle?.content)}
       onChange={(v) => {
         setValue(v);

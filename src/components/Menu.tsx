@@ -14,8 +14,9 @@ const MenuPropsSchema = Type.Object({
       key: Type.String(),
       text: Type.String(),
       disabled: Type.Optional(Type.Boolean()),
-    }),{
-      category:Category.Data
+    }),
+    {
+      category: Category.Data,
     }
   ),
 });
@@ -24,7 +25,7 @@ const MenuStateSchema = Type.Object({
 });
 
 const MenuImpl: ComponentImpl<Static<typeof MenuPropsSchema>> = (props) => {
-  const { customStyle, callbackMap, mergeState } = props;
+  const { elementRef, customStyle, callbackMap, mergeState } = props;
   const { items = [], ...cProps } = getComponentProps(props);
   const [activeKey, setActiveKey] = useState<string>();
   useEffect(() => {
@@ -35,6 +36,7 @@ const MenuImpl: ComponentImpl<Static<typeof MenuPropsSchema>> = (props) => {
 
   return (
     <BaseMenu
+      ref={elementRef}
       className={css(customStyle?.content)}
       onClickMenuItem={(key) => {
         setActiveKey(key);
