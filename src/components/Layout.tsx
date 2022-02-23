@@ -1,17 +1,9 @@
 import { Layout as BaseLayout } from "@arco-design/web-react";
 import { implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css } from "@emotion/css";
-import { Type, Static } from "@sinclair/typebox";
+import { Type } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
-import {
-  HeaderPropsSchema as BaseHeaderPropsSchema,
-  FooterPropsSchema as BaseFooterPropsSchema,
-  ContentPropsSchema as BaseContentPropsSchema,
-  SiderPropsSchema as BaseSiderPropsSchema,
-  LayoutPropsSchema as BaseLayoutPropsSchema,
-} from "../generated/types/Layout";
 
-const LayoutPropsSchema = Type.Object(BaseLayoutPropsSchema);
 const LayoutStateSchema = Type.Object({});
 
 export const Layout = implementRuntimeComponent({
@@ -26,164 +18,99 @@ export const Layout = implementRuntimeComponent({
     },
   },
   spec: {
-    properties: LayoutPropsSchema,
+    properties: Type.Object({
+      showSideBar: Type.Boolean({
+        title: "Show Sidebar",
+        category: "Basic",
+      }),
+      siderbarCollapsible: Type.Boolean({
+        title: "Sidebar Collapsible",
+        category: "Basic",
+      }),
+      siderbarDefaultCollapsed: Type.Boolean({
+        title: "Sidebar Default Collapsed",
+        category: "Basic",
+      }),
+      showFooter: Type.Boolean({
+        title: "Show Footer Area",
+        category: "Basic",
+      }),
+    }),
     state: LayoutStateSchema,
     methods: {},
-    slots: ["content"],
-    styleSlots: ["content"],
+    slots: ["header", "content", "sidebar", "footer"],
+    styleSlots: ["layout", "header", "content", "sidebar", "footer"],
     events: [],
   },
 })((props) => {
   const { elementRef, slotsElements, customStyle } = props;
-  const cProps = getComponentProps(props);
+  const {
+    showSideBar,
+    showFooter,
+    siderbarCollapsible,
+    siderbarDefaultCollapsed,
+  } = getComponentProps(props);
+  const baseProps = {
+    ref: elementRef,
+    style: {
+      height: "400px",
+    },
+    className: css`
+      height: 400px;
+      ${customStyle?.layout || ""}
+    `,
+  };
+  const headerProps = {
+    className: css`
+      height: 64px;
+      background-color: rgb(var(--gray-8));
+      ${customStyle?.header || ""}
+    `,
+  };
+  const contentProps = {
+    className: css`
+      background-color: rgb(var(--gray-1));
+      ${customStyle?.content || ""}
+    `,
+  };
+  const siderProps = {
+    className: css`
+      && {
+        background: rgb(var(--gray-5));
+        ${customStyle?.sidebar || ""}
+      }
+    `,
+    collapsible: siderbarCollapsible,
+    defaultCollapsed: siderbarDefaultCollapsed,
+  };
+  const footerProps = {
+    className: css`
+      height: 64px;
+      background-color: rgb(var(--gray-8));
+      ${customStyle?.footer || ""}
+    `,
+  };
+
   return (
-    <BaseLayout
-      ref={elementRef}
-      className={css(customStyle?.content)}
-      {...cProps}
-    >
-      {slotsElements.content}
+    <BaseLayout {...baseProps}>
+      <BaseLayout.Header {...headerProps}>
+        {slotsElements.header}
+      </BaseLayout.Header>
+      <BaseLayout>
+        {showSideBar && (
+          <BaseLayout.Sider {...siderProps}>
+            {slotsElements.sidebar}
+          </BaseLayout.Sider>
+        )}
+        <BaseLayout.Content {...contentProps}>
+          {slotsElements.content}
+        </BaseLayout.Content>
+      </BaseLayout>
+      {showFooter && (
+        <BaseLayout.Footer {...footerProps}>
+          {slotsElements.footer}
+        </BaseLayout.Footer>
+      )}
     </BaseLayout>
-  );
-});
-
-const HeaderPropsSchema = Type.Object(BaseHeaderPropsSchema);
-const HeaderStateSchema = Type.Object({});
-
-export const Header = implementRuntimeComponent({
-  version: "arco/v1",
-  metadata: {
-    ...FALLBACK_METADATA,
-    name: "header",
-    displayName: "Header",
-    exampleProperties: {},
-    annotations: {
-      category: "Layout",
-    },
-  },
-  spec: {
-    properties: HeaderPropsSchema,
-    state: HeaderStateSchema,
-    methods: {},
-    slots: ["content"],
-    styleSlots: ["content"],
-    events: [],
-  },
-})((props) => {
-  const { slotsElements, customStyle } = props;
-  const cProps = getComponentProps(props);
-
-  return (
-    <BaseLayout.Header className={css(customStyle?.content)} {...cProps}>
-      {slotsElements.content}
-    </BaseLayout.Header>
-  );
-});
-
-const FooterPropsSchema = Type.Object(BaseFooterPropsSchema);
-const FooterStateSchema = Type.Object({});
-
-export const Footer = implementRuntimeComponent({
-  version: "arco/v1",
-  metadata: {
-    ...FALLBACK_METADATA,
-    name: "footer",
-    displayName: "Footer",
-    exampleProperties: {},
-    annotations: {
-      category: "Layout",
-    },
-  },
-  spec: {
-    properties: FooterPropsSchema,
-    state: FooterStateSchema,
-    methods: {},
-    slots: ["content"],
-    styleSlots: ["content"],
-    events: [],
-  },
-})((props) => {
-  const { slotsElements, customStyle } = props;
-  const cProps = getComponentProps(props);
-
-  return (
-    <BaseLayout.Footer className={css(customStyle?.content)} {...cProps}>
-      {slotsElements.content}
-    </BaseLayout.Footer>
-  );
-});
-
-const ContentPropsSchema = Type.Object(BaseContentPropsSchema);
-const ContentStateSchema = Type.Object({});
-
-export const Content = implementRuntimeComponent({
-  version: "arco/v1",
-  metadata: {
-    ...FALLBACK_METADATA,
-    name: "content",
-    displayName: "Content",
-    exampleProperties: {},
-    annotations: {
-      category: "Layout",
-    },
-  },
-  spec: {
-    properties: ContentPropsSchema,
-    state: ContentStateSchema,
-    methods: {},
-    slots: ["content"],
-    styleSlots: ["content"],
-    events: [],
-  },
-})((props) => {
-  const { slotsElements, customStyle } = props;
-  const cProps = getComponentProps(props);
-
-  return (
-    <BaseLayout.Content className={css(customStyle?.content)} {...cProps}>
-      {slotsElements.content}
-    </BaseLayout.Content>
-  );
-});
-
-const SiderPropsSchema = Type.Object(BaseSiderPropsSchema);
-const SiderStateSchema = Type.Object({});
-
-const sideExampleProperties: Static<typeof SiderPropsSchema> = {
-  breakpoint: "xl",
-  collapsed: false,
-  collapsible: false,
-  reverseArrow: false,
-  theme: "dark",
-  collapsedWidth: 48,
-};
-
-export const Sider = implementRuntimeComponent({
-  version: "arco/v1",
-  metadata: {
-    ...FALLBACK_METADATA,
-    name: "sider",
-    displayName: "Sider",
-    exampleProperties: sideExampleProperties,
-    annotations: {
-      category: "Layout",
-    },
-  },
-  spec: {
-    properties: SiderPropsSchema,
-    state: SiderStateSchema,
-    methods: {},
-    slots: ["content"],
-    styleSlots: ["content"],
-    events: [],
-  },
-})((props) => {
-  const { slotsElements, customStyle } = props;
-  const cProps = getComponentProps(props);
-
-  return (
-    <BaseLayout.Sider className={css(customStyle?.content)} {...cProps}>
-      {slotsElements.content}
-    </BaseLayout.Sider>
   );
 });
