@@ -1,5 +1,5 @@
 import { Layout as BaseLayout } from "@arco-design/web-react";
-import { ComponentImpl, implementRuntimeComponent } from "@sunmao-ui/runtime";
+import { implementRuntimeComponent } from "@sunmao-ui/runtime";
 import { css } from "@emotion/css";
 import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
@@ -13,20 +13,6 @@ import {
 
 const LayoutPropsSchema = Type.Object(BaseLayoutPropsSchema);
 const LayoutStateSchema = Type.Object({});
-
-const LayoutImpl: ComponentImpl<Static<typeof LayoutPropsSchema>> = (props) => {
-  const { elementRef, slotsElements, customStyle } = props;
-  const cProps = getComponentProps(props);
-  return (
-    <BaseLayout
-      ref={elementRef}
-      className={css(customStyle?.content)}
-      {...cProps}
-    >
-      {slotsElements.content}
-    </BaseLayout>
-  );
-};
 
 export const Layout = implementRuntimeComponent({
   version: "arco/v1",
@@ -47,21 +33,22 @@ export const Layout = implementRuntimeComponent({
     styleSlots: ["content"],
     events: [],
   },
-})(LayoutImpl as typeof LayoutImpl & undefined);
+})((props) => {
+  const { elementRef, slotsElements, customStyle } = props;
+  const cProps = getComponentProps(props);
+  return (
+    <BaseLayout
+      ref={elementRef}
+      className={css(customStyle?.content)}
+      {...cProps}
+    >
+      {slotsElements.content}
+    </BaseLayout>
+  );
+});
 
 const HeaderPropsSchema = Type.Object(BaseHeaderPropsSchema);
 const HeaderStateSchema = Type.Object({});
-
-const HeaderImpl: ComponentImpl<Static<typeof HeaderPropsSchema>> = (props) => {
-  const { slotsElements, customStyle } = props;
-  const cProps = getComponentProps(props);
-
-  return (
-    <BaseLayout.Header className={css(customStyle?.content)} {...cProps}>
-      {slotsElements.content}
-    </BaseLayout.Header>
-  );
-};
 
 export const Header = implementRuntimeComponent({
   version: "arco/v1",
@@ -82,21 +69,19 @@ export const Header = implementRuntimeComponent({
     styleSlots: ["content"],
     events: [],
   },
-})(HeaderImpl as typeof HeaderImpl & undefined);
-
-const FooterPropsSchema = Type.Object(BaseFooterPropsSchema);
-const FooterStateSchema = Type.Object({});
-
-const FooterImpl: ComponentImpl<Static<typeof FooterPropsSchema>> = (props) => {
+})((props) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
-    <BaseLayout.Footer className={css(customStyle?.content)} {...cProps}>
+    <BaseLayout.Header className={css(customStyle?.content)} {...cProps}>
       {slotsElements.content}
-    </BaseLayout.Footer>
+    </BaseLayout.Header>
   );
-};
+});
+
+const FooterPropsSchema = Type.Object(BaseFooterPropsSchema);
+const FooterStateSchema = Type.Object({});
 
 export const Footer = implementRuntimeComponent({
   version: "arco/v1",
@@ -117,24 +102,19 @@ export const Footer = implementRuntimeComponent({
     styleSlots: ["content"],
     events: [],
   },
-})(FooterImpl as typeof FooterImpl & undefined);
-
-const ContentPropsSchema = Type.Object(BaseContentPropsSchema);
-const ContentStateSchema = Type.Object({});
-
-const ContentImpl: ComponentImpl<Static<typeof ContentPropsSchema>> = (
-  props
-) => {
+})((props) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
-    <BaseLayout.Content className={css(customStyle?.content)} {...cProps}>
+    <BaseLayout.Footer className={css(customStyle?.content)} {...cProps}>
       {slotsElements.content}
-    </BaseLayout.Content>
+    </BaseLayout.Footer>
   );
-};
+});
 
+const ContentPropsSchema = Type.Object(BaseContentPropsSchema);
+const ContentStateSchema = Type.Object({});
 
 export const Content = implementRuntimeComponent({
   version: "arco/v1",
@@ -155,21 +135,19 @@ export const Content = implementRuntimeComponent({
     styleSlots: ["content"],
     events: [],
   },
-})(ContentImpl as typeof ContentImpl & undefined);
-
-const SiderPropsSchema = Type.Object(BaseSiderPropsSchema);
-const SiderStateSchema = Type.Object({});
-
-const SiderImpl: ComponentImpl<Static<typeof SiderPropsSchema>> = (props) => {
+})((props) => {
   const { slotsElements, customStyle } = props;
   const cProps = getComponentProps(props);
 
   return (
-    <BaseLayout.Sider className={css(customStyle?.content)} {...cProps}>
+    <BaseLayout.Content className={css(customStyle?.content)} {...cProps}>
       {slotsElements.content}
-    </BaseLayout.Sider>
+    </BaseLayout.Content>
   );
-};
+});
+
+const SiderPropsSchema = Type.Object(BaseSiderPropsSchema);
+const SiderStateSchema = Type.Object({});
 
 const sideExampleProperties: Static<typeof SiderPropsSchema> = {
   breakpoint: "xl",
@@ -199,4 +177,13 @@ export const Sider = implementRuntimeComponent({
     styleSlots: ["content"],
     events: [],
   },
-})(SiderImpl);
+})((props) => {
+  const { slotsElements, customStyle } = props;
+  const cProps = getComponentProps(props);
+
+  return (
+    <BaseLayout.Sider className={css(customStyle?.content)} {...cProps}>
+      {slotsElements.content}
+    </BaseLayout.Sider>
+  );
+});

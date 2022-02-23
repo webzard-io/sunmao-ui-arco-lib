@@ -4,7 +4,9 @@ import { sunmaoChakraUILib } from "@sunmao-ui/chakra-ui-lib";
 import { ArcoDesignLib } from ".";
 import { StrictMode } from "react";
 
-const { Editor } = initSunmaoUIEditor({ libs: [ArcoDesignLib, sunmaoChakraUILib] });
+const { Editor } = initSunmaoUIEditor({
+  libs: [ArcoDesignLib, sunmaoChakraUILib],
+});
 
 ReactDom.render(
   <StrictMode>
