@@ -5,8 +5,6 @@ import { Type, Static } from "@sinclair/typebox";
 import { FALLBACK_METADATA, getComponentProps } from "../sunmao-helper";
 import { TabsPropsSchema as BaseTabsPropsSchema } from "../generated/types/Tabs";
 import React, { useEffect, useRef, useState } from "react";
-import { SelectViewHandle } from "@arco-design/web-react/es/_class/select-view";
-
 const TabsPropsSchema = Type.Object(BaseTabsPropsSchema);
 const TabsStateSchema = Type.Object({
   activeTab: Type.String(),
@@ -16,11 +14,11 @@ const TabPane = BaseTabs.TabPane;
 const TabsImpl: ComponentImpl<Static<typeof TabsPropsSchema>> = (props) => {
   const { defaultActiveTab, tabNames, ...cProps } = getComponentProps(props);
   const { getElement, customStyle, mergeState, slotsElements } = props;
-  const ref = useRef<SelectViewHandle | null>(null);
+  const ref = useRef<{ current: HTMLDivElement }>(null);
   const [activeTab, setActiveTab] = useState<string>(String(defaultActiveTab));
 
   useEffect(() => {
-    const ele = ref.current?.dom;
+    const ele = ref.current?.current;
     if (getElement && ele) {
       getElement(ele);
     }
